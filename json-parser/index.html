@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Parser Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 6px;
+        }
+
+        .container {
+            width: calc(100% - 12px);
+            height: calc(100vh - 12px);
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: flex;
+            height: calc(100vh - 132px);
+            position: relative;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .output-section {
+            background: white;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .resizer {
+            width: 12px;
+            background: #e9ecef;
+            cursor: col-resize;
+            position: relative;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .resizer:hover {
+            background: #007bff;
+        }
+
+        .resizer::before {
+            content: '';
+            width: 4px;
+            height: 40px;
+            background: #adb5bd;
+            border-radius: 2px;
+        }
+
+        .resizer:hover::before {
+            background: white;
+        }
+
+        .section-header {
+            background: #343a40;
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-section .section-header {
+            background: #495057;
+        }
+
+        .section-content {
+            height: calc(100% - 60px);
+            overflow: auto;
+            padding: 20px;
+        }
+
+        #jsonInput {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 0;
+            background: transparent;
+            outline: none;
+        }
+
+        #jsonOutput {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .json-key {
+            color: #0066cc;
+            font-weight: bold;
+        }
+
+        .json-string {
+            color: #009900;
+        }
+
+        .json-number {
+            color: #cc6600;
+        }
+
+        .json-boolean {
+            color: #cc0066;
+            font-weight: bold;
+        }
+
+        .json-null {
+            color: #999999;
+            font-style: italic;
+        }
+
+        .json-bracket {
+            color: #666666;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .json-bracket:hover {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        .collapsible {
+            background: none;
+            border: none;
+            color: #666666;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: bold;
+            padding: 0 2px;
+            margin: 0;
+        }
+
+        .collapsible:hover {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        .collapsible.collapsed::before {
+            content: "▶ ";
+        }
+
+        .collapsible.expanded::before {
+            content: "▼ ";
+        }
+
+        .json-content {
+            margin-left: 20px;
+            border-left: 1px dashed #ddd;
+            padding-left: 10px;
+        }
+
+        .json-content.hidden {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .status {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .input-section {
+                flex: 0 0 50vh !important;
+                min-width: auto;
+            }
+
+            .output-section {
+                flex: 0 0 50vh !important;
+                min-width: auto;
+            }
+
+            .resizer {
+                width: 100%;
+                height: 6px;
+                cursor: row-resize;
+            }
+
+            .resizer::before {
+                width: 30px;
+                height: 3px;
+            }
+
+            .section-content {
+                height: calc(50vh - 60px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>JSON Parser Online</h1>
+            <p>Парсер JSON с интерактивным просмотром и подсветкой синтаксиса</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="section-header">
+                    <span>Ввод JSON</span>
+                    <div class="controls">
+                        <button class="btn btn-warning" onclick="clearInput()">Очистить</button>
+                        <button class="btn btn-success" onclick="formatJSON()">Форматировать</button>
+                        <button class="btn" onclick="parseJSON()">Парсить</button>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <textarea id="jsonInput" placeholder="Вставьте сюда ваш JSON..."></textarea>
+                </div>
+            </div>
+            
+            <div class="resizer" id="resizer"></div>
+            
+            <div class="output-section">
+                <div class="section-header">
+                    <span>Результат</span>
+                    <div class="controls">
+                        <button class="btn" onclick="expandAll()">Развернуть всё</button>
+                        <button class="btn" onclick="collapseAll()">Свернуть всё</button>
+                        <span class="status" id="statusText">Готов</span>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="jsonOutput">Здесь появится отформатированный JSON</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let parsedData = null;
+        let jsonStructure = null;
+        let savedJSON = ''; // Сохраняем JSON в памяти на время сессии
+
+        // Функция для сохранения JSON в памяти
+        function saveJSON(jsonString) {
+            savedJSON = jsonString;
+        }
+
+        // Функция для загрузки JSON из памяти
+        function loadJSON() {
+            return savedJSON;
+        }
+
+        // Функциональность изменения размеров панелей
+        let isResizing = false;
+        
+        function initResizer() {
+            const resizer = document.getElementById('resizer');
+            const inputSection = document.querySelector('.input-section');
+            const outputSection = document.querySelector('.output-section');
+            const container = document.querySelector('.main-content');
+            
+            resizer.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                isResizing = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+                
+                const containerRect = container.getBoundingClientRect();
+                const startX = e.clientX;
+                const containerWidth = containerRect.width;
+                
+                function handleMouseMove(e) {
+                    if (!isResizing) return;
+                    
+                    const currentX = e.clientX;
+                    const relativeX = currentX - containerRect.left;
+                    
+                    // Ограничиваем минимальные размеры (200px для каждой панели)
+                    const minWidth = 200;
+                    const maxLeftWidth = containerWidth - minWidth - 12; // 12px для разделителя
+                    
+                    let leftWidth = Math.max(minWidth, Math.min(maxLeftWidth, relativeX));
+                    let rightWidth = containerWidth - leftWidth - 12;
+                    
+                    // Применяем новые размеры
+                    inputSection.style.flex = `0 0 ${leftWidth}px`;
+                    outputSection.style.flex = `0 0 ${rightWidth}px`;
+                }
+                
+                function handleMouseUp() {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    document.removeEventListener('mousemove', handleMouseMove);
+                    document.removeEventListener('mouseup', handleMouseUp);
+                }
+                
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+            });
+            
+            // Сброс размеров при изменении размера окна
+            window.addEventListener('resize', function() {
+                inputSection.style.flex = '1';
+                outputSection.style.flex = '1';
+            });
+        }
+
+        // Автоматический парсинг при вводе
+        document.getElementById('jsonInput').addEventListener('input', function() {
+            const value = this.value.trim();
+            saveJSON(value); // Сохраняем в памяти при каждом изменении
+            if (value) {
+                setTimeout(() => parseJSON(), 300);
+            }
+        });
+
+        function parseJSON() {
+            const input = document.getElementById('jsonInput').value.trim();
+            const output = document.getElementById('jsonOutput');
+            const status = document.getElementById('statusText');
+            
+            if (!input) {
+                output.innerHTML = 'Введите JSON для парсинга';
+                status.textContent = 'Готов';
+                return;
+            }
+            
+            try {
+                parsedData = JSON.parse(input);
+                jsonStructure = createInteractiveJSON(parsedData);
+                output.innerHTML = jsonStructure;
+                status.textContent = `Успешно спаршено (${getObjectSize(parsedData)} элементов)`;
+                
+                // Добавляем обработчики событий для сворачивания/разворачивания
+                addCollapsibleEvents();
+                
+            } catch (error) {
+                output.innerHTML = `<div class="error-message">
+                    <strong>Ошибка парсинга JSON:</strong><br>
+                    ${error.message}
+                    <br><br>
+                    <strong>Проверьте:</strong><br>
+                    • Правильность синтаксиса JSON<br>
+                    • Наличие всех закрывающих скобок<br>
+                    • Корректность кавычек<br>
+                    • Отсутствие лишних запятых
+                </div>`;
+                status.textContent = 'Ошибка парсинга';
+            }
+        }
+
+        function createInteractiveJSON(obj, indent = 0) {
+            const indentStr = '  '.repeat(indent);
+            
+            if (obj === null) {
+                return `<span class="json-null">null</span>`;
+            }
+            
+            if (typeof obj === 'string') {
+                return `<span class="json-string">"${escapeHtml(obj)}"</span>`;
+            }
+            
+            if (typeof obj === 'number') {
+                return `<span class="json-number">${obj}</span>`;
+            }
+            
+            if (typeof obj === 'boolean') {
+                return `<span class="json-boolean">${obj}</span>`;
+            }
+            
+            if (Array.isArray(obj)) {
+                if (obj.length === 0) {
+                    return '<span class="json-bracket">[]</span>';
+                }
+                
+                const id = 'array_' + Math.random().toString(36).substr(2, 9);
+                let result = `<button class="collapsible expanded" data-target="${id}">[</button>\n`;
+                result += `<div class="json-content" id="${id}">`;
+                
+                obj.forEach((item, index) => {
+                    result += `${indentStr}  ${createInteractiveJSON(item, indent + 1)}`;
+                    if (index < obj.length - 1) {
+                        result += ',';
+                    }
+                    result += '\n';
+                });
+                
+                result += `</div>${indentStr}<span class="json-bracket">]</span>`;
+                return result;
+            }
+            
+            if (typeof obj === 'object') {
+                const keys = Object.keys(obj);
+                if (keys.length === 0) {
+                    return '<span class="json-bracket">{}</span>';
+                }
+                
+                const id = 'object_' + Math.random().toString(36).substr(2, 9);
+                let result = `<button class="collapsible expanded" data-target="${id}">{</button>\n`;
+                result += `<div class="json-content" id="${id}">`;
+                
+                keys.forEach((key, index) => {
+                    result += `${indentStr}  <span class="json-key">"${escapeHtml(key)}"</span>: `;
+                    result += createInteractiveJSON(obj[key], indent + 1);
+                    if (index < keys.length - 1) {
+                        result += ',';
+                    }
+                    result += '\n';
+                });
+                
+                result += `</div>${indentStr}<span class="json-bracket">}</span>`;
+                return result;
+            }
+            
+            return String(obj);
+        }
+
+        function addCollapsibleEvents() {
+            document.querySelectorAll('.collapsible').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    
+                    if (content.classList.contains('hidden')) {
+                        content.classList.remove('hidden');
+                        this.classList.remove('collapsed');
+                        this.classList.add('expanded');
+                    } else {
+                        content.classList.add('hidden');
+                        this.classList.remove('expanded');
+                        this.classList.add('collapsed');
+                    }
+                });
+            });
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.json-content').forEach(content => {
+                content.classList.remove('hidden');
+            });
+            document.querySelectorAll('.collapsible').forEach(button => {
+                button.classList.remove('collapsed');
+                button.classList.add('expanded');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.json-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.querySelectorAll('.collapsible').forEach(button => {
+                button.classList.remove('expanded');
+                button.classList.add('collapsed');
+            });
+        }
+
+        function formatJSON() {
+            const input = document.getElementById('jsonInput');
+            try {
+                const parsed = JSON.parse(input.value);
+                input.value = JSON.stringify(parsed, null, 2);
+                parseJSON();
+            } catch (error) {
+                alert('Невозможно отформатировать: ' + error.message);
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('jsonOutput').innerHTML = 'Здесь появится отформатированный JSON';
+            document.getElementById('statusText').textContent = 'Готов';
+            saveJSON(''); // Очищаем сохраненный JSON
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getObjectSize(obj) {
+            if (obj === null || typeof obj !== 'object') return 1;
+            
+            if (Array.isArray(obj)) {
+                return obj.reduce((total, item) => total + getObjectSize(item), 0);
+            }
+            
+            return Object.keys(obj).reduce((total, key) => total + getObjectSize(obj[key]), Object.keys(obj).length);
+        }
+
+        // Инициализация при загрузке страницы
+        window.addEventListener('load', function() {
+            document.getElementById('statusText').textContent = 'Готов';
+            initResizer(); // Инициализируем функциональность изменения размеров
+            
+            // Загружаем сохраненный JSON (если есть)
+            const savedData = loadJSON();
+            if (savedData) {
+                document.getElementById('jsonInput').value = savedData;
+                parseJSON();
+            }
+        });
+    </script>
+</body>
+</html>

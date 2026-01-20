@@ -1,0 +1,107 @@
+.uploader.parent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+    background-color: antiquewhite;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.uploader.child {
+     width: auto;
+     height: auto;
+}
+
+.preview {
+    display: none;
+    margin: 0px 15px 15px 15px;
+    text-align: center;
+}
+
+.form-wrapper {
+    margin: 15px;
+}
+
+.copy-wrapper {
+    margin: 0px 15px 15px 15px;
+    align-items: center;
+    font-size: 12px;
+    position: relative;
+}
+
+img#preview-image {
+    max-width: 320px;
+}
+
+.uploader-container {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+input.file {
+    position: absolute;
+    left: 30px;
+    display: none;
+}
+
+.copy {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+body {
+    background-color: antiquewhite;
+}
+.error {
+    color: red;
+}
+
+.filename-url {
+    margin-bottom: 5px;
+}
+
+input {
+    max-width: 656px;
+}
+
+input.width, input.height {
+    width: 8em;
+    margin: 5px 0px 5px 5px;
+}
+
+.copybutton {
+    position: absolute;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background: url(copy-24px.svg) no-repeat;
+    display: inline-flex;
+    margin-left: 5px;
+    right: 0.5rem;
+    filter: opacity(40%);
+    bottom: 0.5em;
+}
+.copybutton:hover {
+    background-color: #2196F3;
+}
+
+.prev-url-wrapper, .bb-code-url-wrapper {
+    text-align: left;
+    align-items: center;
+    font-size: 12px;
+    position: relative;
+}
+
+.sizing-box-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+label {
+    font-size: 12px;
+}

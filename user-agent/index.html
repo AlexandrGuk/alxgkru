@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Agent Parser</title>
+    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            padding: 6px;
+            color: #ffffff;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #ff8c00;
+        }
+
+        .nav-home {
+            font-size: 1.1rem;
+        }
+
+        .container {
+            width: calc(100% - 12px);
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            margin-top: 50px;
+        }
+
+        .header {
+            background: rgba(26, 26, 46, 0.6);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .ua-display {
+            background: rgba(26, 26, 46, 0.3);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .ua-display label {
+            display: block;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .ua-text {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            word-break: break-all;
+            line-height: 1.6;
+            padding: 12px;
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 140, 0, 0.1);
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section label {
+            display: block;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-section textarea {
+            width: 100%;
+            min-height: 80px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(26, 26, 46, 0.5);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 6px;
+            padding: 12px;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-section textarea:focus {
+            border-color: #ff8c00;
+        }
+
+        .input-section textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            background: rgba(102, 126, 234, 0.3);
+            color: white;
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background: rgba(102, 126, 234, 0.5);
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.5);
+        }
+
+        .btn-success:hover {
+            background: rgba(74, 222, 128, 0.4);
+            border-color: #4ade80;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+        }
+
+        .results {
+            background: rgba(26, 26, 46, 0.3);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .results h2 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .result-label {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 6px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 15px;
+            color: #ff8c00;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 50px;
+                margin-bottom: 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="../index.html" class="nav-home">← alxgk.ru</a>
+        <a href="../index.html">Главная</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>User Agent Parser</h1>
+            <p>Показ и парсинг User Agent</p>
+        </div>
+        
+        <div class="content">
+            <div class="results" id="results">
+                <div id="parsedResults"></div>
+            </div>
+
+            <div class="ua-display">
+                <label>Ваш User Agent:</label>
+                <div class="ua-text" id="currentUA"></div>
+            </div>
+
+            <div class="input-section">
+                <label for="customUA">Или введите User Agent для парсинга:</label>
+                <textarea id="customUA" placeholder="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36..."></textarea>
+                <button class="btn btn-success" onclick="parseCustomUA()" style="margin-top: 10px;">Парсить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function parseUA(uaString) {
+            const ua = uaString || navigator.userAgent;
+            const result = {
+                browser: 'Unknown',
+                browserVersion: '',
+                os: 'Unknown',
+                device: 'Desktop',
+                engine: 'Unknown'
+            };
+
+            // Browser detection
+            if (ua.includes('Edg/')) {
+                result.browser = 'Microsoft Edge';
+                result.browserVersion = ua.match(/Edg\/([\d.]+)/)?.[1] || '';
+            } else if (ua.includes('Chrome/') && !ua.includes('Edg')) {
+                result.browser = 'Google Chrome';
+                result.browserVersion = ua.match(/Chrome\/([\d.]+)/)?.[1] || '';
+            } else if (ua.includes('Firefox/')) {
+                result.browser = 'Mozilla Firefox';
+                result.browserVersion = ua.match(/Firefox\/([\d.]+)/)?.[1] || '';
+            } else if (ua.includes('Safari/') && !ua.includes('Chrome')) {
+                result.browser = 'Safari';
+                result.browserVersion = ua.match(/Version\/([\d.]+)/)?.[1] || '';
+            } else if (ua.includes('Opera/') || ua.includes('OPR/')) {
+                result.browser = 'Opera';
+                result.browserVersion = ua.match(/(?:Opera|OPR)\/([\d.]+)/)?.[1] || '';
+            }
+
+            // OS detection
+            if (ua.includes('Windows NT 10.0')) {
+                result.os = 'Windows 10/11';
+            } else if (ua.includes('Windows NT 6.3')) {
+                result.os = 'Windows 8.1';
+            } else if (ua.includes('Windows NT 6.2')) {
+                result.os = 'Windows 8';
+            } else if (ua.includes('Windows NT 6.1')) {
+                result.os = 'Windows 7';
+            } else if (ua.includes('Mac OS X')) {
+                const version = ua.match(/Mac OS X ([\d_]+)/)?.[1];
+                result.os = 'macOS' + (version ? ' ' + version.replace(/_/g, '.') : '');
+            } else if (ua.includes('Linux')) {
+                result.os = 'Linux';
+            } else if (ua.includes('Android')) {
+                result.os = 'Android';
+                const version = ua.match(/Android ([\d.]+)/)?.[1];
+                if (version) result.os += ' ' + version;
+            } else if (ua.includes('iPhone') || ua.includes('iPad')) {
+                result.os = ua.includes('iPad') ? 'iOS (iPad)' : 'iOS (iPhone)';
+                const version = ua.match(/OS ([\d_]+)/)?.[1];
+                if (version) result.os += ' ' + version.replace(/_/g, '.');
+            }
+
+            // Device detection
+            if (ua.includes('Mobile') || ua.includes('Android') || ua.includes('iPhone') || ua.includes('iPad')) {
+                result.device = 'Mobile';
+                if (ua.includes('Tablet') || ua.includes('iPad')) {
+                    result.device = 'Tablet';
+                }
+            }
+
+            // Engine detection
+            if (ua.includes('AppleWebKit/')) {
+                result.engine = 'WebKit';
+            } else if (ua.includes('Gecko/')) {
+                result.engine = 'Gecko';
+            } else if (ua.includes('Trident/')) {
+                result.engine = 'Trident';
+            }
+
+            return result;
+        }
+
+        function displayResults(parsed) {
+            const container = document.getElementById('parsedResults');
+            container.innerHTML = `
+                <div class="result-item">
+                    <div class="result-label">Браузер</div>
+                    <div class="result-value">${parsed.browser} ${parsed.browserVersion || ''}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Операционная система</div>
+                    <div class="result-value">${parsed.os}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Устройство</div>
+                    <div class="result-value">${parsed.device}</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Движок</div>
+                    <div class="result-value">${parsed.engine}</div>
+                </div>
+            `;
+        }
+
+        function parseCustomUA() {
+            const customUA = document.getElementById('customUA').value.trim();
+            if (!customUA) {
+                alert('Введите User Agent для парсинга');
+                return;
+            }
+            const parsed = parseUA(customUA);
+            displayResults(parsed);
+        }
+
+        window.addEventListener('load', function() {
+            const currentUA = navigator.userAgent;
+            document.getElementById('currentUA').textContent = currentUA;
+            
+            const parsed = parseUA(currentUA);
+            displayResults(parsed);
+
+            document.getElementById('customUA').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    parseCustomUA();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

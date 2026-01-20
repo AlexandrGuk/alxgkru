@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alxgk.ru - Personal Services</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1a2e;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --accent-orange: #ff8c00;
+            --accent-blue: #667eea;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 140, 0, 0.2);
+            --shadow-glow: rgba(255, 140, 0, 0.3);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .project-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--shadow-glow);
+        }
+        
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .project-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover .project-icon {
+            transform: scale(1.1);
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        
+        .project-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: gap 0.3s ease;
+        }
+        
+        .project-card:hover .project-link {
+            gap: 12px;
+        }
+        
+        .project-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover .project-link::after {
+            transform: translateX(4px);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 40px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>alxgk.ru</h1>
+            <p>Персональные веб-сервисы и инструменты</p>
+        </header>
+        
+        <div class="projects-grid">
+            <div class="project-card" onclick="window.location.href='game-forest/index.html'">
+                <div class="project-icon">🎮</div>
+                <h2 class="project-title">Game Forest</h2>
+                <p class="project-description">
+                    3D игра на Three.js в стиле шутера от первого лица. 
+                    Выживай в темном лесу, уничтожай врагов и собирай припасы.
+                </p>
+                <a href="game-forest/index.html" class="project-link">Открыть</a>
+            </div>
+            
+            <div class="project-card" onclick="window.location.href='json-parser/index.html'">
+                <div class="project-icon">🔧</div>
+                <h2 class="project-title">JSON Parser</h2>
+                <p class="project-description">
+                    Онлайн парсер JSON с интерактивным просмотром и подсветкой синтаксиса. 
+                    Форматирование и валидация JSON данных.
+                </p>
+                <a href="json-parser/index.html" class="project-link">Открыть</a>
+            </div>
+            
+            <div class="project-card" onclick="window.location.href='uploader/index.php'">
+                <div class="project-icon">📤</div>
+                <h2 class="project-title">Uploader</h2>
+                <p class="project-description">
+                    Сервис загрузки изображений с созданием превью и генерацией BB-кодов. 
+                    Поддержка форматов JPG, PNG, GIF.
+                </p>
+                <a href="uploader/index.php" class="project-link">Открыть</a>
+            </div>
+            
+            <div class="project-card" onclick="window.location.href='cloud/index.php'">
+                <div class="project-icon">☁️</div>
+                <h2 class="project-title">Cloud Text</h2>
+                <p class="project-description">
+                    Совместное редактирование текста в реальном времени. 
+                    Сохраняй и делись текстом через облако.
+                </p>
+                <a href="cloud/index.php" class="project-link">Открыть</a>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>© 2024 alxgk.ru | Персональные веб-сервисы</p>
+        </footer>
+    </div>
+</body>
+</html>
+

@@ -8,9 +8,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" media="none"
           onload="if(media!='all')media='all'">
+    <style>
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #ff8c00;
+        }
+
+        .nav-home {
+            font-size: 1.1rem;
+        }
+
+        body {
+            padding-top: 50px;
+        }
+    </style>
 </head>
 
 <body>
+<nav class="nav">
+    <a href="../index.html" class="nav-home">← alxgk.ru</a>
+    <a href="../index.html">Главная</a>
+</nav>
 <div class="uploader parent">
     <div class="w3-panel w3-dark-gray w3-card w3-display-container uploader-container">
         <div class="form-wrapper">

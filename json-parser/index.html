@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSON Parser Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,23 +15,61 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
             min-height: 100vh;
             padding: 6px;
+            color: #ffffff;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #ff8c00;
+        }
+
+        .nav-home {
+            font-size: 1.1rem;
         }
 
         .container {
             width: calc(100% - 12px);
             height: calc(100vh - 12px);
-            background: white;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            margin-top: 50px;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(26, 26, 46, 0.6);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
             color: white;
             padding: 30px;
             text-align: center;
@@ -47,25 +88,25 @@
 
         .main-content {
             display: flex;
-            height: calc(100vh - 132px);
+            height: calc(100vh - 182px);
             position: relative;
         }
 
         .input-section {
-            background: #f8f9fa;
+            background: rgba(26, 26, 46, 0.3);
             flex: 1;
             min-width: 200px;
         }
 
         .output-section {
-            background: white;
+            background: rgba(26, 26, 46, 0.3);
             flex: 1;
             min-width: 200px;
         }
 
         .resizer {
             width: 12px;
-            background: #e9ecef;
+            background: rgba(255, 140, 0, 0.1);
             cursor: col-resize;
             position: relative;
             transition: background 0.2s;
@@ -75,23 +116,24 @@
         }
 
         .resizer:hover {
-            background: #007bff;
+            background: rgba(255, 140, 0, 0.3);
         }
 
         .resizer::before {
             content: '';
             width: 4px;
             height: 40px;
-            background: #adb5bd;
+            background: rgba(255, 140, 0, 0.4);
             border-radius: 2px;
         }
 
         .resizer:hover::before {
-            background: white;
+            background: #ff8c00;
         }
 
         .section-header {
-            background: #343a40;
+            background: rgba(10, 14, 39, 0.6);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
             color: white;
             padding: 15px 20px;
             font-weight: 600;
@@ -101,13 +143,14 @@
         }
 
         .input-section .section-header {
-            background: #495057;
+            background: rgba(10, 14, 39, 0.6);
         }
 
         .section-content {
             height: calc(100% - 60px);
             overflow: auto;
             padding: 20px;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         #jsonInput {
@@ -115,61 +158,67 @@
             height: 100%;
             border: none;
             resize: none;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 14px;
             line-height: 1.6;
             padding: 0;
             background: transparent;
             outline: none;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        #jsonInput::placeholder {
+            color: rgba(255, 255, 255, 0.4);
         }
 
         #jsonOutput {
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 14px;
             line-height: 1.6;
             white-space: pre-wrap;
             word-wrap: break-word;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .json-key {
-            color: #0066cc;
+            color: #667eea;
             font-weight: bold;
         }
 
         .json-string {
-            color: #009900;
+            color: #4ade80;
         }
 
         .json-number {
-            color: #cc6600;
+            color: #ff8c00;
         }
 
         .json-boolean {
-            color: #cc0066;
+            color: #f472b6;
             font-weight: bold;
         }
 
         .json-null {
-            color: #999999;
+            color: rgba(255, 255, 255, 0.5);
             font-style: italic;
         }
 
         .json-bracket {
-            color: #666666;
+            color: rgba(255, 255, 255, 0.6);
             font-weight: bold;
             cursor: pointer;
             user-select: none;
         }
 
         .json-bracket:hover {
-            background: #f0f0f0;
+            background: rgba(255, 140, 0, 0.2);
             border-radius: 3px;
         }
 
         .collapsible {
             background: none;
             border: none;
-            color: #666666;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             font-family: inherit;
             font-size: inherit;
@@ -179,8 +228,9 @@
         }
 
         .collapsible:hover {
-            background: #f0f0f0;
+            background: rgba(255, 140, 0, 0.2);
             border-radius: 3px;
+            color: #ff8c00;
         }
 
         .collapsible.collapsed::before {
@@ -193,7 +243,7 @@
 
         .json-content {
             margin-left: 20px;
-            border-left: 1px dashed #ddd;
+            border-left: 1px dashed rgba(255, 140, 0, 0.3);
             padding-left: 10px;
         }
 
@@ -207,51 +257,61 @@
         }
 
         .btn {
-            background: #007bff;
+            background: rgba(102, 126, 234, 0.3);
             color: white;
-            border: none;
+            border: 1px solid rgba(102, 126, 234, 0.5);
             padding: 8px 16px;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
         .btn:hover {
-            background: #0056b3;
+            background: rgba(102, 126, 234, 0.5);
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
         }
 
         .btn-success {
-            background: #28a745;
+            background: rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.5);
         }
 
         .btn-success:hover {
-            background: #1e7e34;
+            background: rgba(74, 222, 128, 0.4);
+            border-color: #4ade80;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
         }
 
         .btn-warning {
-            background: #ffc107;
-            color: #212529;
+            background: rgba(255, 140, 0, 0.2);
+            border-color: rgba(255, 140, 0, 0.5);
+            color: #ff8c00;
         }
 
         .btn-warning:hover {
-            background: #e0a800;
+            background: rgba(255, 140, 0, 0.4);
+            border-color: #ff8c00;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
         }
 
         .error-message {
-            color: #dc3545;
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            border-radius: 8px;
             padding: 15px;
             margin-top: 10px;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-size: 13px;
         }
 
         .status {
             font-size: 12px;
-            opacity: 0.8;
+            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         @media (max-width: 768px) {
@@ -288,6 +348,10 @@
     </style>
 </head>
 <body>
+    <nav class="nav">
+        <a href="../index.html" class="nav-home">← alxgk.ru</a>
+        <a href="../index.html">Главная</a>
+    </nav>
     <div class="container">
         <div class="header">
             <h1>JSON Parser Online</h1>
@@ -300,6 +364,7 @@
                     <span>Ввод JSON</span>
                     <div class="controls">
                         <button class="btn btn-warning" onclick="clearInput()">Очистить</button>
+                        <button class="btn" onclick="findJSON()" title="Автоматически находит JSON в тексте, удаляя лишние символы в начале">Очистить до JSON</button>
                         <button class="btn btn-success" onclick="formatJSON()">Форматировать</button>
                         <button class="btn" onclick="parseJSON()">Парсить</button>
                     </div>
@@ -321,7 +386,7 @@
                     </div>
                 </div>
                 <div class="section-content">
-                    <div id="jsonOutput">Здесь появится отформатированный JSON</div>
+                    <div id="jsonOutput" style="color: rgba(255, 255, 255, 0.5);">Здесь появится отформатированный JSON</div>
                 </div>
             </div>
         </div>
@@ -413,7 +478,7 @@
             const status = document.getElementById('statusText');
             
             if (!input) {
-                output.innerHTML = 'Введите JSON для парсинга';
+                output.innerHTML = '<span style="color: rgba(255, 255, 255, 0.5);">Введите JSON для парсинга</span>';
                 status.textContent = 'Готов';
                 return;
             }
@@ -555,6 +620,49 @@
                 parseJSON();
             } catch (error) {
                 alert('Невозможно отформатировать: ' + error.message);
+            }
+        }
+
+        function findJSON() {
+            const input = document.getElementById('jsonInput');
+            const status = document.getElementById('statusText');
+            const originalText = input.value;
+            
+            if (!originalText || originalText.trim().length === 0) {
+                status.textContent = 'Введите текст для поиска JSON';
+                return;
+            }
+            
+            status.textContent = 'Поиск JSON...';
+            
+            const maxCheck = Math.min(1000, originalText.length);
+            let found = false;
+            let cleanedText = '';
+            
+            for (let i = 0; i < maxCheck; i++) {
+                const testText = originalText.substring(i);
+                
+                if (testText.trim().length === 0) {
+                    break;
+                }
+                
+                try {
+                    JSON.parse(testText);
+                    cleanedText = testText;
+                    found = true;
+                    break;
+                } catch (e) {
+                    continue;
+                }
+            }
+            
+            if (found) {
+                input.value = cleanedText;
+                saveJSON(cleanedText);
+                parseJSON();
+                status.textContent = 'JSON найден и очищен';
+            } else {
+                status.textContent = 'Валидный JSON не найден (проверено ' + maxCheck + ' символов)';
             }
         }
 

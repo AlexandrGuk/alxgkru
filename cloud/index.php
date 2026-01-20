@@ -68,11 +68,41 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #ff8c00;
+        }
+
+        .nav-home {
+            font-size: 1.1rem;
+        }
+
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
             margin: 20px auto;
-            padding: 0 20px;
+            padding: 70px 20px 20px;
         }
         textarea {
             width: 100%;
@@ -117,6 +147,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
     </style>
 </head>
 <body>
+    <nav class="nav">
+        <a href="../index.html" class="nav-home">← alxgk.ru</a>
+        <a href="../index.html">Главная</a>
+    </nav>
     <h1>Text Sharing</h1>
     <div id="limits">Максимальный размер текста: <?php echo ini_get('post_max_size'); ?></div>
     <textarea id="shared_text" placeholder="Введите или вставьте текст здесь..." oninput="updateTextLength()"></textarea>

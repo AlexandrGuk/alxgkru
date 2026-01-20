@@ -63,7 +63,8 @@ function loadPreview(text) {
          return;
      }
      document.querySelector("div.preview").style.display = "block";
-     let url = window.location.href + text;
+     let baseUrl = window.location.href.replace(/\/[^\/]*$/, '');
+     let url = baseUrl + '/' + text;
      inpUrl.value = url;
      widthInp.value = "320";
      document.querySelector("#preview-image").src = createThumbnail();
@@ -72,8 +73,9 @@ function loadPreview(text) {
 function createThumbnail() {
     let width = +widthInp.value ? `${+widthInp.value}x` : ``;
     let height = +heightInp.value? `${+heightInp.value}_` : `_`;
-    let url = inpUrl.value.replace(window.location.href+"img/", "");
-    url = window.location.href + `img/${width+height+url}`;
+    let baseUrl = window.location.href.replace(/\/[^\/]*$/, '');
+    let url = inpUrl.value.replace(baseUrl + "/img/", "");
+    url = baseUrl + `/img/${width+height+url}`;
     prevInput.value = url;
     bbInput.value = createBBcode();
     console.log(createBBcode());

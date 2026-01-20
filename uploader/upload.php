@@ -3,6 +3,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	if (isset($_FILES['files'])) {
 		$errors = [];
 		$path = 'img/';
+		
+		if (!file_exists($path)) {
+			mkdir($path, 0755, true);
+		}
+		
 		$extensions = ['jpg', 'jpeg', 'png', 'gif'];
 
 		$all_files = count($_FILES['files']['tmp_name']);

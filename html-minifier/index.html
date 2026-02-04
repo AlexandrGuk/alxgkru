@@ -436,6 +436,10 @@
                     <label for="removeSvgData" class="setting-label">Очистить SVG (fill, path)</label>
                 </div>
                 <div class="setting-item">
+                    <input type="checkbox" id="removeShortClasses" class="checkbox" checked onchange="minifyHTML()">
+                    <label for="removeShortClasses" class="setting-label">Удалить короткие классы и Tailwind</label>
+                </div>
+                <div class="setting-item">
                     <input type="checkbox" id="minifyWhitespace" class="checkbox" checked onchange="minifyHTML()">
                     <label for="minifyWhitespace" class="setting-label">Минифицировать пробелы</label>
                 </div>
@@ -491,6 +495,10 @@
                         <span class="stat-detail-label">SVG элементов (fill, path)</span>
                         <span class="stat-detail-value" id="svgCleanCount">0</span>
                     </div>
+                    <div class="stat-detail-item">
+                        <span class="stat-detail-label">Удалено классов</span>
+                        <span class="stat-detail-value" id="classesCount">0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -517,7 +525,8 @@
                     metaCount: 0,
                     inlineStylesCount: 0,
                     emptyAttrsCount: 0,
-                    svgCleanCount: 0
+                    svgCleanCount: 0,
+                    classesCount: 0
                 };
                 
                 const removeComments = document.getElementById('removeComments').checked;
@@ -527,6 +536,7 @@
                 const removeMetaTags = document.getElementById('removeMetaTags').checked;
                 const removeEmptyAttrs = document.getElementById('removeEmptyAttrs').checked;
                 const removeSvgData = document.getElementById('removeSvgData').checked;
+                const removeShortClasses = document.getElementById('removeShortClasses').checked;
                 const minifyWhitespace = document.getElementById('minifyWhitespace').checked;
                 
                 if (removeComments) {
@@ -583,6 +593,10 @@
                     const svgPaths = doc.querySelectorAll('svg path');
                     stats.svgCleanCount += svgPaths.length;
                     svgPaths.forEach(path => path.remove());
+                }
+                
+                if (removeShortClasses) {
+                    stats.classesCount = removeShortAndTailwindClasses(doc.body);
                 }
                 
                 let html = doc.documentElement.outerHTML;
@@ -648,6 +662,69 @@
             }
         }
         
+        function isTailwindClass(className) {
+            if (!className || className.length === 0) return false;
+            
+            const tailwindPatterns = [
+                /^(sm|md|lg|xl|2xl):/,
+                /^(hover|focus|active|disabled|group-hover|group-focus|peer-hover|peer-focus):/,
+                /^(dark|light):/,
+                /^(p|m|px|py|pt|pb|pl|pr|mx|my|mt|mb|ml|mr)-/,
+                /^(w|h|min-w|min-h|max-w|max-h)-/,
+                /^(bg|text|border|ring|shadow|opacity|z)-/,
+                /^(flex|grid|block|inline|hidden|visible)/,
+                /^(items|justify|content|self|place)-/,
+                /^(gap|space)-/,
+                /^(rounded|border|divide|ring|shadow)-/,
+                /^(font|text|leading|tracking|antialiased|subpixel-antialiased)/,
+                /^(uppercase|lowercase|capitalize|normal-case)/,
+                /^(truncate|overflow|overflow-x|overflow-y)/,
+                /^(cursor|select|pointer-events|resize|appearance)/,
+                /^(transition|duration|ease|delay|animate)/,
+                /^(transform|scale|rotate|translate|skew)/,
+                /^(absolute|relative|fixed|sticky|static)/,
+                /^(top|right|bottom|left|inset)-/,
+                /^(col|row)-/,
+                /^(order|z-index)/,
+                /^(object|object-fit|object-position)/,
+                /^(list|list-inside|list-outside|list-none)/,
+                /^(table|table-auto|table-fixed)/,
+                /^(sr-only|not-sr-only)/
+            ];
+            
+            return tailwindPatterns.some(pattern => pattern.test(className));
+        }
+        
+        function removeShortAndTailwindClasses(node) {
+            let removedCount = 0;
+            
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                if (node.hasAttribute('class')) {
+                    const classValue = node.getAttribute('class');
+                    const classes = classValue.split(/\s+/).filter(c => c.trim().length > 0);
+                    const filteredClasses = classes.filter(className => {
+                        const shouldRemove = className.length < 5 || isTailwindClass(className);
+                        if (shouldRemove) {
+                            removedCount++;
+                        }
+                        return !shouldRemove;
+                    });
+                    
+                    if (filteredClasses.length === 0) {
+                        node.removeAttribute('class');
+                    } else {
+                        node.setAttribute('class', filteredClasses.join(' '));
+                    }
+                }
+                
+                for (let child of node.childNodes) {
+                    removedCount += removeShortAndTailwindClasses(child);
+                }
+            }
+            
+            return removedCount;
+        }
+        
         function updateStats(original, minified, stats) {
             document.getElementById('originalSize').textContent = formatBytes(original);
             document.getElementById('minifiedSize').textContent = formatBytes(minified);
@@ -667,6 +744,7 @@
                 document.getElementById('inlineStylesCount').textContent = stats.inlineStylesCount || 0;
                 document.getElementById('emptyAttrsCount').textContent = stats.emptyAttrsCount || 0;
                 document.getElementById('svgCleanCount').textContent = stats.svgCleanCount || 0;
+                document.getElementById('classesCount').textContent = stats.classesCount || 0;
             } else {
                 document.getElementById('statsDetails').style.display = 'none';
             }

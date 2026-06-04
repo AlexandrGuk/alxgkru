@@ -16,5 +16,3 @@ ExpiresByType application/x-shockwave-flash "access 1 month"
 ExpiresByType image/x-icon "access 1 year"
 ExpiresDefault "access 1 month"
 </IfModule>
-RewriteCond %{HTTP_HOST} ^.*$
-RewriteRule ^paypal\-checkout\-webhook$ "http\:\/\/212\.3\.154\.30\:5000\/paypal\-checkout\-webhook" [R=301,L]

@@ -17,3 +17,8 @@ npm-debug.log*
 # Temporary files
 *.tmp
 *.temp
+
+# uploader: PHP in git, uploaded images on server only
+uploader/img/*
+!uploader/img/*.php
+!uploader/img/.gitkeep

@@ -22,3 +22,6 @@ npm-debug.log*
 uploader/img/*
 !uploader/img/*.php
 !uploader/img/.gitkeep
+
+# cloud: runtime data on server only
+cloud/shared_text.txt

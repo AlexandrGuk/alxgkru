@@ -1,8 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
-$storage_file = 'shared_text.txt';
+$storage_file = __DIR__ . '/shared_text.txt';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $text = isset($_POST['text']) ? $_POST['text'] : '';

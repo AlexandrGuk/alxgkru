@@ -12,6 +12,13 @@
 
 ## 📦 Сервисы
 
+### 📰 Mood News Grid
+Реальные новости РБК в четырёх настроениях. Факты те же, тон другой.
+
+**Расположение:** `mood-news-grid/index.html`
+
+**README задания:** `mood-news-grid/README.md`
+
 ### 🎮 Game Forest
 3D игра на Three.js в стиле шутера от первого лица. Выживай в темном лесу, уничтожай врагов и собирай припасы.
 
@@ -87,7 +94,10 @@ php -S localhost:8000
 ```
 alxgkru/
 ├── index.html              # Главная страница
-├── async.js               # Скрипт проверки async/await
+├── mood-news-grid/         # Новости в разных настроениях
+│   ├── index.html
+│   ├── README.md
+│   └── data/news.json
 ├── game-forest/           # 3D игра
 │   └── index.html
 ├── json-parser/           # JSON парсер

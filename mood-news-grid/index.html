@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood News Grid — alxgk.ru</title>
+  <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-mood="neutral">
+  <a class="skip" href="#grid">К новостям</a>
+  <nav class="nav">
+    <a href="../index.html" class="nav-home">← alxgk.ru</a>
+    <a href="../index.html">Главная</a>
+  </nav>
+
+  <header class="masthead">
+    <div class="masthead-copy">
+      <p class="eyebrow" id="source-line">РБК · открытый RSS</p>
+      <h1>Одна лента —<br>четыре настроения</h1>
+      <p class="lede">Реальные новости. Тон меняется, факты — нет. Откройте карточку, чтобы сверить оригинал и перепись.</p>
+    </div>
+    <div class="mood-panel">
+      <p class="mood-label" id="mood-label">Настроение</p>
+      <div class="mood-switch" role="radiogroup" aria-labelledby="mood-label">
+        <button type="button" role="radio" aria-checked="true" data-mood="neutral">Нейтрально</button>
+        <button type="button" role="radio" aria-checked="false" data-mood="joyful">Радостно</button>
+        <button type="button" role="radio" aria-checked="false" data-mood="sad">Грустно</button>
+        <button type="button" role="radio" aria-checked="false" data-mood="ironic">Иронично</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid" id="grid" aria-live="polite"></section>
+  </main>
+
+  <dialog class="sheet" id="sheet" aria-labelledby="sheet-title">
+    <div class="sheet-bar">
+      <p class="sheet-kicker" id="sheet-kicker"></p>
+      <button type="button" class="icon-btn" id="sheet-close" aria-label="Закрыть">×</button>
+    </div>
+    <h2 class="sheet-title" id="sheet-title"></h2>
+    <p class="sheet-meta" id="sheet-meta"></p>
+    <div class="facts" id="sheet-facts"></div>
+    <div class="proof">
+      <article>
+        <h3>Оригинал</h3>
+        <h4 id="orig-title"></h4>
+        <p id="orig-text"></p>
+      </article>
+      <article>
+        <h3 id="mood-col-title">Перепись</h3>
+        <h4 id="mood-title"></h4>
+        <p id="mood-text"></p>
+      </article>
+    </div>
+    <p class="sheet-foot">
+      <span class="badge" id="verify-badge"></span>
+      <a id="source-link" href="#" target="_blank" rel="noopener noreferrer">Открыть источник</a>
+    </p>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

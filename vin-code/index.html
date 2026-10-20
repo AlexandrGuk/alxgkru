@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Инженерный код по VIN</title>
+    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --accent-orange: #ff8c00;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 140, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            color: var(--accent-orange);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 88px 20px 48px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -0.4px;
+        }
+
+        ol {
+            margin: 0 0 20px;
+            padding-left: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        li + li {
+            margin-top: 6px;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange);
+            background: rgba(255, 140, 0, 0.08);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .example {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 28px;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        label {
+            font-weight: 500;
+        }
+
+        input {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            padding: 14px 16px;
+            outline: none;
+            width: 100%;
+        }
+
+        input:focus {
+            border-color: var(--accent-orange);
+        }
+
+        .output {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            min-height: 44px;
+        }
+
+        .result {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.35rem;
+            color: var(--accent-orange);
+        }
+
+        .result.is-error {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .steps {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        button {
+            font-family: 'Inter', sans-serif;
+            background: transparent;
+            color: var(--accent-orange);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            border-color: var(--accent-orange);
+        }
+
+        .alt {
+            margin-top: 20px;
+            color: var(--text-secondary);
+        }
+
+        .alt a {
+            color: var(--accent-orange);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.55rem;
+            }
+
+            form {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="../index.html" class="nav-home">← alxgk.ru</a>
+        <a href="../index.html">Главная</a>
+    </nav>
+    <main class="container">
+        <h1>Как самому посчитать инженерный код по VIN</h1>
+        <ol>
+            <li>Берём последние 6 символов VIN: a b c d e f</li>
+            <li>Переставляем в порядке: a d c f b e</li>
+            <li>После 2-го символа вставляем 1</li>
+            <li>Перед последними двумя символами вставляем 0</li>
+            <li>Обрамляем: *#КОД#*</li>
+        </ol>
+        <p class="example">Пример: хвост VIN <code>097483</code> → <code>047398</code> → <code>0417398</code> → <code>04173098</code> → <code>*#04173098#*</code></p>
+        <form id="vin-form">
+            <label for="vin-input">VIN или последние 6 символов</label>
+            <input id="vin-input" name="vin" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="097483">
+            <div class="output">
+                <p class="result" id="vin-result" aria-live="polite"></p>
+                <button id="vin-copy" type="button" hidden>Копировать</button>
+            </div>
+            <p class="steps" id="vin-steps"></p>
+        </form>
+        <p class="alt">Или просто воспользуйтесь калькулятором: <a href="https://qiyuan.by/calculatewithocr/calculate.html">VIN Calculator Q05</a></p>
+    </main>
+    <script>
+        (function () {
+            var input = document.getElementById('vin-input');
+            var result = document.getElementById('vin-result');
+            var steps = document.getElementById('vin-steps');
+            var copyBtn = document.getElementById('vin-copy');
+
+            function engineeringCode(raw) {
+                var clean = raw.replace(/[\s-]/g, '').toUpperCase();
+                if (clean.length < 6) {
+                    return { error: 'Нужно минимум 6 символов' };
+                }
+                var tail = clean.slice(-6);
+                if (!/^[A-Z0-9]{6}$/.test(tail)) {
+                    return { error: 'Последние 6 символов должны быть буквами или цифрами' };
+                }
+                var rearranged = tail[0] + tail[3] + tail[2] + tail[5] + tail[1] + tail[4];
+                var withOne = rearranged.slice(0, 2) + '1' + rearranged.slice(2);
+                var withZero = withOne.slice(0, -2) + '0' + withOne.slice(-2);
+                var code = '*#' + withZero + '#*';
+                return { code: code, chain: tail + ' → ' + rearranged + ' → ' + withOne + ' → ' + withZero + ' → ' + code };
+            }
+
+            function update() {
+                var value = input.value.trim();
+                copyBtn.hidden = true;
+                result.classList.remove('is-error');
+                if (!value) {
+                    result.textContent = '';
+                    steps.textContent = '';
+                    return;
+                }
+                var out = engineeringCode(value);
+                if (out.error) {
+                    result.textContent = out.error;
+                    result.classList.add('is-error');
+                    steps.textContent = '';
+                    return;
+                }
+                result.textContent = out.code;
+                steps.textContent = out.chain;
+                copyBtn.hidden = false;
+            }
+
+            input.addEventListener('input', update);
+            document.getElementById('vin-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                update();
+            });
+            copyBtn.addEventListener('click', function () {
+                var text = result.textContent;
+                if (text.indexOf('*#') !== 0) {
+                    return;
+                }
+                navigator.clipboard.writeText(text).then(function () {
+                    copyBtn.textContent = 'Скопировано';
+                    setTimeout(function () {
+                        copyBtn.textContent = 'Копировать';
+                    }, 1500);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

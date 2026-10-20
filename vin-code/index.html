@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Инженерный код по VIN</title>
+    <title>Инженерный код Q05 Max</title>
     <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -172,13 +172,9 @@
             border-color: var(--accent-orange);
         }
 
-        .alt {
-            margin-top: 20px;
+        .lead {
+            margin-bottom: 20px;
             color: var(--text-secondary);
-        }
-
-        .alt a {
-            color: var(--accent-orange);
         }
 
         @media (max-width: 768px) {
@@ -199,6 +195,7 @@
     </nav>
     <main class="container">
         <h1>Как самому посчитать инженерный код по VIN</h1>
+        <p class="lead">Калькулятор для Q05 Max.</p>
         <ol>
             <li>Берём последние 6 символов VIN: a b c d e f</li>
             <li>Переставляем в порядке: a d c f b e</li>
@@ -216,7 +213,6 @@
             </div>
             <p class="steps" id="vin-steps"></p>
         </form>
-        <p class="alt">Или просто воспользуйтесь калькулятором: <a href="https://qiyuan.by/calculatewithocr/calculate.html">VIN Calculator Q05</a></p>
     </main>
     <script>
         (function () {

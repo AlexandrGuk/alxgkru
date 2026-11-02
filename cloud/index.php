@@ -146,7 +146,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
 </head>
 <body>
     <nav class="nav">
-        <a href="../index.html" class="nav-home">← alxgk.ru</a>
+        <a href="../index.html" class="nav-home">← alxgk.site</a>
         <a href="../index.html">Главная</a>
     </nav>
     <h1>Text Sharing</h1>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнение видеокарт</title>
+    <meta name="description" content="Сравнение десктопных видеокарт NVIDIA, AMD и Intel: характеристики и относительный индекс быстродействия.">
+    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-solid: #12162f;
+            --bg-head: #171c38;
+            --accent-orange: #ff8c00;
+            --accent-blue: #667eea;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border-color: rgba(255, 140, 0, 0.2);
+            --nvidia: #9ad36a;
+            --amd: #ff8c00;
+            --intel: #8eb4ff;
+            --lean: #8eb4ff;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--bg-primary);
+            background-image:
+                radial-gradient(circle at 18% 0%, rgba(255, 140, 0, 0.12) 0%, transparent 42%),
+                radial-gradient(circle at 90% 20%, rgba(102, 126, 234, 0.12) 0%, transparent 40%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav a:hover { color: var(--accent-orange); }
+
+        .page {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 84px 20px 56px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 8px;
+        }
+
+        .lede {
+            max-width: 68ch;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 28px;
+        }
+
+        .toolbar, .share, .sheet, .empty, .custom {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .toolbar { padding: 16px; margin-bottom: 16px; }
+
+        .picker { position: relative; }
+
+        .q {
+            width: 100%;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-primary);
+            font: 500 16px/1.2 Inter, sans-serif;
+            padding: 0 16px 0 44px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%23ffffff' stroke-opacity='.55' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 14px 50%;
+        }
+
+        .q::placeholder { color: var(--text-muted); }
+
+        .q:focus-visible, button:focus-visible, .link:focus-visible, input:focus-visible {
+            outline: 2px solid var(--accent-orange);
+            outline-offset: 2px;
+        }
+
+        .menu {
+            position: absolute;
+            z-index: 20;
+            left: 0;
+            right: 0;
+            top: calc(100% + 6px);
+            max-height: 320px;
+            overflow: auto;
+            background: #161b36;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 6px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .group, .menu-empty {
+            padding: 8px 10px 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .menu-empty { text-transform: none; letter-spacing: 0; font-size: 14px; padding: 14px; }
+
+        .option {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            text-align: left;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-primary);
+            padding: 8px 10px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .option[aria-selected="true"], .option:hover { background: rgba(255, 140, 0, 0.14); }
+        .option:disabled { cursor: default; opacity: 0.45; }
+        .option-name { display: block; font-weight: 600; }
+        .option-meta { display: block; color: var(--text-muted); font-size: 12px; margin-top: 2px; }
+        mark { background: transparent; color: var(--accent-orange); font-weight: 700; }
+
+        .vendors, .seg {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .vendors button, .seg button, .ghost, .chip, .copy {
+            min-height: 36px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: transparent;
+            color: var(--text-secondary);
+            font: 500 14px/1 Inter, sans-serif;
+            padding: 0 14px;
+            cursor: pointer;
+        }
+
+        .vendors button.is-on, .seg button.is-on {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: #1a1004;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            margin: 14px 0 8px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .limit { color: #ffb15c; }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; min-height: 0; }
+        .chips:empty { display: none; }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .chip-x { display: inline-flex; opacity: 0.55; }
+        .chip-x svg { width: 14px; height: 14px; display: block; }
+        .chip:hover .chip-x { opacity: 1; }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex: 0 0 auto;
+        }
+
+        .vendor-NVIDIA { background: var(--nvidia); }
+        .vendor-AMD { background: var(--amd); }
+        .vendor-Intel { background: var(--intel); }
+
+        .empty {
+            padding: 36px 24px;
+            text-align: center;
+        }
+
+        .empty h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 8px; }
+        .empty p { color: var(--text-secondary); margin-bottom: 18px; }
+        .pairs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+
+        .ghost {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: 8px 0 12px;
+        }
+
+        .custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+
+        .custom label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .sheet { overflow: visible; }
+        .sheet[hidden], .empty[hidden], .custom[hidden], .menu[hidden] { display: none; }
+
+        table.compare {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 640px;
+        }
+
+        .compare th, .compare td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            vertical-align: middle;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .compare thead th {
+            position: sticky;
+            top: 49px;
+            background: var(--bg-head);
+            z-index: 2;
+            min-width: 200px;
+        }
+
+        .stick {
+            position: sticky;
+            left: 0;
+            z-index: 3;
+            text-align: left;
+            min-width: 168px;
+            width: 168px;
+            background: var(--bg-solid);
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        thead .stick { z-index: 4; background: #1c2244; }
+
+        .corner-k, .gpu-vendor, .pct {
+            display: block;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .corner-v { display: block; margin-top: 4px; font-family: "JetBrains Mono", monospace; color: var(--text-primary); }
+
+        .gpu-head { text-align: left; }
+        .gpu-tools { display: flex; justify-content: flex-end; gap: 2px; }
+        .gpu-tools button {
+            width: 28px;
+            height: 28px;
+            min-height: 28px;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.62);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .gpu-tools button svg { width: 16px; height: 16px; display: block; }
+        .gpu-tools button:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+        .gpu-tools button[data-act="remove"]:hover { background: rgba(255, 90, 70, 0.16); color: #ffb4a8; }
+        .gpu-tools button:disabled { opacity: 0.22; cursor: default; background: transparent; color: rgba(255, 255, 255, 0.62); }
+        .gpu-name { font-weight: 600; line-height: 1.3; margin: 8px 0 10px; }
+        .idx {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        .bar {
+            height: 10px;
+            margin: 10px 0 6px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            width: 0;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .bar i { transition: width 0.35s ease; }
+        }
+
+        .is-best { color: var(--accent-orange); font-weight: 700; }
+        .is-lean { color: var(--lean); font-weight: 700; }
+        .span-note { text-align: left; color: var(--text-secondary); }
+
+        .share {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 16px;
+            padding: 12px;
+        }
+
+        .link {
+            flex: 1;
+            min-width: 0;
+            height: 40px;
+            border: 0;
+            background: transparent;
+            color: var(--text-secondary);
+            font: 400 13px/1.4 "JetBrains Mono", monospace;
+        }
+
+        .copy {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: #1a1004;
+            flex: 0 0 auto;
+        }
+
+        #copy-status { color: var(--nvidia); font-size: 13px; min-width: 11em; }
+
+        .note {
+            margin-top: 18px;
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.55;
+            max-width: 90ch;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @media (max-width: 720px) {
+            h1 { font-size: 1.6rem; }
+            .stick { min-width: 112px; width: 112px; }
+            .vendors button, .seg button, .ghost, .chip, .copy { min-height: 44px; }
+            .compare thead th { min-width: 168px; }
+            .idx { font-size: 1.6rem; }
+            .share { flex-wrap: wrap; }
+            #copy-status { min-width: 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="../index.html" class="nav-home">← alxgk.ru</a>
+        <a href="../index.html">Главная</a>
+    </nav>
+    <main class="page">
+        <h1>Сравнение видеокарт</h1>
+        <p class="lede">Пятьдесят десктопных карт 2016–2025. Выберите до шести и смотрите характеристики рядом. Полоска — доля от самой быстрой карты в этом сравнении.</p>
+
+        <div class="toolbar">
+            <div class="picker">
+                <label class="visually-hidden" for="q">Найти видеокарту</label>
+                <input id="q" class="q" type="search" placeholder="Название, например 4070" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="menu" aria-autocomplete="list">
+                <div id="menu" class="menu" role="listbox" hidden></div>
+            </div>
+            <div id="vendors" class="vendors" role="radiogroup" aria-label="Производитель">
+                <button type="button" data-vendor="" class="is-on" aria-checked="true">Все</button>
+                <button type="button" data-vendor="NVIDIA" aria-checked="false">NVIDIA</button>
+                <button type="button" data-vendor="AMD" aria-checked="false">AMD</button>
+                <button type="button" data-vendor="Intel" aria-checked="false">Intel</button>
+            </div>
+        </div>
+
+        <div class="meta-row">
+            <p id="count"></p>
+            <p id="limit" class="limit" hidden>Шесть карт — предел таблицы. Уберите одну, чтобы добавить другую.</p>
+        </div>
+        <div id="chips" class="chips"></div>
+
+        <div id="empty" class="empty">
+            <h2>В сравнении пока пусто</h2>
+            <p>Найдите карту в поле выше или откройте готовую пару.</p>
+            <div class="pairs">
+                <button type="button" class="ghost" data-pair="rtx-4070,rx-7800-xt">RTX 4070 и RX 7800 XT</button>
+                <button type="button" class="ghost" data-pair="rtx-5090,rtx-4090">RTX 5090 и RTX 4090</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div id="presets" class="seg" role="radiogroup" aria-label="Какие строки показать">
+                <button type="button" data-preset="main" aria-checked="false">Главное</button>
+                <button type="button" data-preset="all" aria-checked="false">Все строки</button>
+                <button type="button" data-preset="custom" aria-checked="false">Свои</button>
+            </div>
+        </div>
+        <div id="custom" class="custom" hidden></div>
+        <div id="sheet" class="sheet" hidden></div>
+
+        <div class="share">
+            <label class="visually-hidden" for="link">Ссылка на это сравнение</label>
+            <input id="link" class="link" type="text" readonly>
+            <button type="button" id="copy" class="copy">Скопировать</button>
+            <span id="copy-status" role="status"></span>
+        </div>
+
+        <p class="note">Индекс — растиризация по относительной шкале TechPowerUp, GeForce RTX 5090 принята за 100. Для карт уровня RTX 3080 и выше в их сводке больше вес у 4K. Трассировка, DLSS и FSR в индекс не входят. Частоты, питание и TDP — референсные. У Radeon RX 5000 и новее нижняя частота — Game Clock. RT-блоки и Tensor / AI у NVIDIA, AMD и Intel считаются по-разному.</p>
+    </main>
+    <script src="gpus.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

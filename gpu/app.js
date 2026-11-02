@@ -32,6 +32,7 @@ const ROWS = [
 const search = document.querySelector("#q");
 const menu = document.querySelector("#menu");
 const vendorBar = document.querySelector("#vendors");
+const segmentBar = document.querySelector("#segments");
 const chips = document.querySelector("#chips");
 const sheet = document.querySelector("#sheet");
 const empty = document.querySelector("#empty");
@@ -45,6 +46,7 @@ const customPanel = document.querySelector("#custom");
 
 let selected = [];
 let vendor = "";
+let segment = "";
 let query = "";
 let menuOpen = false;
 let active = 0;
@@ -96,8 +98,11 @@ function filtered() {
     const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     return GPUS.filter((gpu) => {
         if (vendor && gpu.vendor !== vendor) return false;
+        if (segment === "laptop" && !gpu.laptop) return false;
+        if (segment === "desktop" && gpu.laptop) return false;
         if (!words.length) return true;
-        const hay = `${gpu.vendor} ${gpu.name} ${gpu.architecture} ${gpu.core}`.toLowerCase();
+        const kind = gpu.laptop ? "ноутбук laptop" : "десктоп desktop";
+        const hay = `${gpu.vendor} ${gpu.name} ${gpu.architecture} ${gpu.core} ${kind}`.toLowerCase();
         return words.every((word) => hay.includes(word));
     });
 }
@@ -131,6 +136,10 @@ function vendorTag(vendor) {
     return `<span class="tag tag-${vendor}">${vendor}</span>`;
 }
 
+function laptopTag(gpu) {
+    return gpu.laptop ? `<span class="tag tag-laptop">Ноутбук</span>` : "";
+}
+
 function renderMenu() {
     const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const list = filtered();
@@ -153,7 +162,7 @@ function renderMenu() {
             ${vendorTag(gpu.vendor)}
             <span>
                 <span class="option-name">${highlight(gpu.name, words)}</span>
-                <span class="option-meta">${gpu.year} · ${gpu.memory} ГБ</span>
+                <span class="option-meta">${gpu.laptop ? "ноутбук · " : ""}${gpu.year} · ${gpu.memory} ГБ</span>
             </span>
         </button>`;
     }).join("");
@@ -198,7 +207,7 @@ function renderTable() {
                 <button type="button" data-act="next" data-i="${index}" aria-label="Сдвинуть ${escapeHtml(gpu.name)} вправо" ${index === cards.length - 1 ? "disabled" : ""}>${ICON.next}</button>
                 <button type="button" data-act="remove" data-i="${index}" aria-label="Убрать ${escapeHtml(gpu.name)}">${ICON.remove}</button>
             </div>
-            <p class="gpu-vendor">${vendorTag(gpu.vendor)}</p>
+            <p class="gpu-vendor">${vendorTag(gpu.vendor)}${laptopTag(gpu)}</p>
             <p class="gpu-name">${escapeHtml(gpu.name)}</p>
             <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения">
                 <i class="vendor-${gpu.vendor}" style="width:${percent}%"></i>
@@ -259,7 +268,7 @@ function mobileCard(gpu, index, cards, percent) {
             <button type="button" data-act="next" data-i="${index}" aria-label="Сдвинуть ${escapeHtml(gpu.name)} вправо" ${index === cards.length - 1 ? "disabled" : ""}>${ICON.next}</button>
             <button type="button" data-act="remove" data-i="${index}" aria-label="Убрать ${escapeHtml(gpu.name)}">${ICON.remove}</button>
         </div>
-        <p class="gpu-vendor">${vendorTag(gpu.vendor)}</p>
+        <p class="gpu-vendor">${vendorTag(gpu.vendor)}${laptopTag(gpu)}</p>
         <h2 class="gpu-name">${escapeHtml(gpu.name)}</h2>
         <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения"><i class="vendor-${gpu.vendor}" style="width:${percent}%"></i></div>
         <p class="pct">${percent}%</p>
@@ -371,6 +380,19 @@ vendorBar.addEventListener("click", (event) => {
     if (!button) return;
     vendor = button.dataset.vendor;
     vendorBar.querySelectorAll("button").forEach((item) => {
+        const on = item === button;
+        item.classList.toggle("is-on", on);
+        item.setAttribute("aria-checked", on ? "true" : "false");
+    });
+    active = 0;
+    renderMenu();
+});
+
+segmentBar.addEventListener("click", (event) => {
+    const button = event.target.closest("button");
+    if (!button) return;
+    segment = button.dataset.segment;
+    segmentBar.querySelectorAll("button").forEach((item) => {
         const on = item === button;
         item.classList.toggle("is-on", on);
         item.setAttribute("aria-checked", on ? "true" : "false");

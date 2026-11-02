@@ -229,6 +229,8 @@
         .tag-NVIDIA { color: #c6ef9a; background: rgba(154, 211, 106, 0.16); }
         .tag-AMD { color: #ffb0ac; background: rgba(225, 6, 0, 0.22); }
         .tag-Intel { color: #c5d6ff; background: rgba(142, 180, 255, 0.16); }
+        .gpu-vendor { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .tag-laptop { color: #ddd9ee; background: rgba(255, 255, 255, 0.08); }
 
         .vendor-NVIDIA { background: var(--nvidia); }
         .vendor-AMD { background: var(--amd); }
@@ -512,7 +514,7 @@
     </nav>
     <main class="page">
         <h1>Сравнение видеокарт</h1>
-        <p class="lede">Десктопные карты 2016–2025. Выберите до шести и смотрите характеристики рядом. Полоска — доля от самой быстрой карты в этом сравнении.</p>
+        <p class="lede">Десктопные и ноутбучные карты 2016–2025. Выберите до шести и смотрите характеристики рядом. Полоска — доля от самой быстрой карты в этом сравнении.</p>
 
         <div class="toolbar">
             <div class="picker">
@@ -525,6 +527,11 @@
                 <button type="button" data-vendor="NVIDIA" aria-checked="false">NVIDIA</button>
                 <button type="button" data-vendor="AMD" aria-checked="false">AMD</button>
                 <button type="button" data-vendor="Intel" aria-checked="false">Intel</button>
+            </div>
+            <div id="segments" class="vendors" role="radiogroup" aria-label="Сегмент">
+                <button type="button" data-segment="" class="is-on" aria-checked="true">Все</button>
+                <button type="button" data-segment="desktop" aria-checked="false">Десктоп</button>
+                <button type="button" data-segment="laptop" aria-checked="false">Ноутбуки</button>
             </div>
         </div>
 
@@ -560,7 +567,7 @@
             <span id="copy-status" role="status"></span>
         </div>
 
-        <p class="note">Полоска — доля от самой быстрой карты в этом сравнении, по растиризации TechPowerUp. Для карт уровня RTX 3080 и выше в их сводке больше вес у 4K. Трассировка, DLSS и FSR не входят. Частоты, питание и TDP — референсные. У Radeon RX 5000 и новее нижняя частота — Game Clock. RT-блоки и Tensor / AI у NVIDIA, AMD и Intel считаются по-разному.</p>
+        <p class="note">Полоска — доля от самой быстрой карты в этом сравнении, по растиризации TechPowerUp. Для карт уровня RTX 3080 и выше в их сводке больше вес у 4K. Трассировка, DLSS и FSR не входят. У ноутбучных карт в TDP указан верхний TGP: в конкретном ноутбуке он часто ниже. Частоты, питание и TDP десктопных карт — референсные. У Radeon RX 5000 и новее нижняя частота — Game Clock. RT-блоки и Tensor / AI у NVIDIA, AMD и Intel считаются по-разному.</p>
     </main>
     <script src="gpus.js"></script>
     <script src="app.js"></script>

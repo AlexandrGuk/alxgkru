@@ -149,7 +149,7 @@ function renderMenu() {
             <span class="dot vendor-${gpu.vendor}"></span>
             <span>
                 <span class="option-name">${highlight(gpu.name, words)}</span>
-                <span class="option-meta">${gpu.year} · ${gpu.memory} ГБ · индекс ${gpu.score}</span>
+                <span class="option-meta">${gpu.year} · ${gpu.memory} ГБ</span>
             </span>
         </button>`;
     }).join("");
@@ -184,7 +184,7 @@ function renderTable() {
 
     const maxScore = Math.max(...cards.map((gpu) => gpu.score));
     const ghosts = Math.max(0, SLOTS - cards.length);
-    const head = [`<th class="stick corner" scope="col"><span class="corner-k">Индекс</span><span class="corner-v">5090 = 100</span></th>`];
+    const head = [`<th class="stick corner" scope="col"><span class="corner-k">От лидера</span></th>`];
     const palm = [];
     cards.forEach((gpu, index) => {
         const percent = Math.round(gpu.score / maxScore * 100);
@@ -196,10 +196,10 @@ function renderTable() {
             </div>
             <p class="gpu-vendor"><span class="dot vendor-${gpu.vendor}"></span>${gpu.vendor}</p>
             <p class="gpu-name">${escapeHtml(gpu.name)}</p>
-            <p class="idx">${gpu.score}</p>
             <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения">
                 <i class="vendor-${gpu.vendor}" style="width:${percent}%"></i>
             </div>
+            <p class="pct">${percent}%</p>
         </th>`);
         palm.push(mobileCard(gpu, index, cards, percent));
     });
@@ -257,8 +257,8 @@ function mobileCard(gpu, index, cards, percent) {
         </div>
         <p class="gpu-vendor"><span class="dot vendor-${gpu.vendor}"></span>${gpu.vendor}</p>
         <h2 class="gpu-name">${escapeHtml(gpu.name)}</h2>
-        <p class="idx">${gpu.score}</p>
         <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения"><i class="vendor-${gpu.vendor}" style="width:${percent}%"></i></div>
+        <p class="pct">${percent}%</p>
         <div class="mspecs">${specs}</div>
     </article>`;
 }

@@ -313,16 +313,14 @@
 
         thead .stick { z-index: 4; background: #1c2244; }
 
-        .corner-k, .gpu-vendor {
+        .corner-k, .gpu-vendor, .pct {
             display: block;
             color: var(--text-muted);
             font-size: 12px;
             font-weight: 500;
         }
 
-        .corner-v { display: block; margin-top: 4px; font-family: "JetBrains Mono", monospace; color: var(--text-primary); }
-
-        .gpu-head { text-align: left; }
+        .gpu-name { font-weight: 600; line-height: 1.3; margin: 8px 0 10px; text-align: left; }
         .gpu-tools { display: flex; justify-content: flex-end; gap: 2px; }
         .gpu-tools button {
             width: 28px;
@@ -373,14 +371,7 @@
         .phantom svg { width: 22px; height: 22px; }
         .phantom:hover { border-color: rgba(255, 140, 0, 0.7); color: var(--text-primary); }
 
-        .gpu-name { font-weight: 600; line-height: 1.3; margin: 8px 0 10px; }
-        .idx {
-            font-family: "JetBrains Mono", monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            line-height: 1;
-        }
+        .pct { margin-top: 6px; text-align: left; font-variant-numeric: tabular-nums; }
 
         .bar {
             height: 10px;
@@ -560,7 +551,7 @@
             <span id="copy-status" role="status"></span>
         </div>
 
-        <p class="note">Индекс — растиризация по относительной шкале TechPowerUp, GeForce RTX 5090 принята за 100. Для карт уровня RTX 3080 и выше в их сводке больше вес у 4K. Трассировка, DLSS и FSR в индекс не входят. Частоты, питание и TDP — референсные. У Radeon RX 5000 и новее нижняя частота — Game Clock. RT-блоки и Tensor / AI у NVIDIA, AMD и Intel считаются по-разному.</p>
+        <p class="note">Полоска — доля от самой быстрой карты в этом сравнении, по растиризации TechPowerUp. Для карт уровня RTX 3080 и выше в их сводке больше вес у 4K. Трассировка, DLSS и FSR не входят. Частоты, питание и TDP — референсные. У Radeon RX 5000 и новее нижняя частота — Game Clock. RT-блоки и Tensor / AI у NVIDIA, AMD и Intel считаются по-разному.</p>
     </main>
     <script src="gpus.js"></script>
     <script src="app.js"></script>

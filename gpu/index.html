@@ -214,23 +214,24 @@
         .chip-x svg { width: 14px; height: 14px; display: block; }
         .chip:hover .chip-x { opacity: 1; }
 
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            flex: 0 0 auto;
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            height: 18px;
+            padding: 0 7px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            line-height: 1;
         }
 
-        .gpu-vendor {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .tag-NVIDIA { color: #c6ef9a; background: rgba(154, 211, 106, 0.16); }
+        .tag-AMD { color: #ffb0ac; background: rgba(225, 6, 0, 0.22); }
+        .tag-Intel { color: #c5d6ff; background: rgba(142, 180, 255, 0.16); }
 
         .vendor-NVIDIA { background: var(--nvidia); }
         .vendor-AMD { background: var(--amd); }
-        .dot.vendor-AMD { background: #e10600; }
         .vendor-Intel { background: var(--intel); }
 
         .empty {

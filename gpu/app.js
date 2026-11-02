@@ -127,6 +127,10 @@ function bestIndexes(row, cards) {
     return values.flatMap((value, index) => (value === best ? [index] : []));
 }
 
+function vendorTag(vendor) {
+    return `<span class="tag tag-${vendor}">${vendor}</span>`;
+}
+
 function renderMenu() {
     const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const list = filtered();
@@ -146,7 +150,7 @@ function renderMenu() {
             : "";
         lastVendor = gpu.vendor;
         return `${header}<button type="button" class="option${added ? " is-added" : ""}" id="opt-${gpu.id}" role="option" data-id="${gpu.id}" aria-selected="${index === active}" ${added ? "disabled" : ""}>
-            <span class="dot vendor-${gpu.vendor}"></span>
+            ${vendorTag(gpu.vendor)}
             <span>
                 <span class="option-name">${highlight(gpu.name, words)}</span>
                 <span class="option-meta">${gpu.year} · ${gpu.memory} ГБ</span>
@@ -166,7 +170,7 @@ function renderChips() {
     chips.innerHTML = selected.map((id) => {
         const gpu = byId[id];
         return `<button type="button" class="chip" data-id="${id}">
-            <span class="dot vendor-${gpu.vendor}"></span>${escapeHtml(gpu.name)}
+            ${vendorTag(gpu.vendor)}${escapeHtml(gpu.name)}
             <span class="chip-x" aria-hidden="true">${ICON.remove}</span>
             <span class="visually-hidden">Убрать</span>
         </button>`;
@@ -194,7 +198,7 @@ function renderTable() {
                 <button type="button" data-act="next" data-i="${index}" aria-label="Сдвинуть ${escapeHtml(gpu.name)} вправо" ${index === cards.length - 1 ? "disabled" : ""}>${ICON.next}</button>
                 <button type="button" data-act="remove" data-i="${index}" aria-label="Убрать ${escapeHtml(gpu.name)}">${ICON.remove}</button>
             </div>
-            <p class="gpu-vendor"><span class="dot vendor-${gpu.vendor}"></span>${gpu.vendor}</p>
+            <p class="gpu-vendor">${vendorTag(gpu.vendor)}</p>
             <p class="gpu-name">${escapeHtml(gpu.name)}</p>
             <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения">
                 <i class="vendor-${gpu.vendor}" style="width:${percent}%"></i>
@@ -255,7 +259,7 @@ function mobileCard(gpu, index, cards, percent) {
             <button type="button" data-act="next" data-i="${index}" aria-label="Сдвинуть ${escapeHtml(gpu.name)} вправо" ${index === cards.length - 1 ? "disabled" : ""}>${ICON.next}</button>
             <button type="button" data-act="remove" data-i="${index}" aria-label="Убрать ${escapeHtml(gpu.name)}">${ICON.remove}</button>
         </div>
-        <p class="gpu-vendor"><span class="dot vendor-${gpu.vendor}"></span>${gpu.vendor}</p>
+        <p class="gpu-vendor">${vendorTag(gpu.vendor)}</p>
         <h2 class="gpu-name">${escapeHtml(gpu.name)}</h2>
         <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения"><i class="vendor-${gpu.vendor}" style="width:${percent}%"></i></div>
         <p class="pct">${percent}%</p>

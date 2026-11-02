@@ -200,7 +200,6 @@ function renderTable() {
             <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения">
                 <i class="vendor-${gpu.vendor}" style="width:${percent}%"></i>
             </div>
-            <p class="pct">${percent}% от лидера</p>
         </th>`);
         palm.push(mobileCard(gpu, index, cards, percent));
     });
@@ -260,7 +259,6 @@ function mobileCard(gpu, index, cards, percent) {
         <h2 class="gpu-name">${escapeHtml(gpu.name)}</h2>
         <p class="idx">${gpu.score}</p>
         <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения"><i class="vendor-${gpu.vendor}" style="width:${percent}%"></i></div>
-        <p class="pct">${percent}% от лидера</p>
         <div class="mspecs">${specs}</div>
     </article>`;
 }

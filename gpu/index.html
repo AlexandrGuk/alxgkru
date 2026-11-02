@@ -351,10 +351,10 @@
         .gpu-tools button[data-act="remove"]:hover { background: rgba(255, 90, 70, 0.16); color: #ffb4a8; }
         .gpu-tools button:disabled { opacity: 0.22; cursor: default; background: transparent; color: rgba(255, 255, 255, 0.62); }
 
-        th.is-phantom {
+        .compare thead th.is-phantom {
+            height: 1px;
+            padding: 10px;
             background: transparent;
-            vertical-align: stretch;
-            border-bottom-color: transparent;
         }
 
         td.is-phantom {
@@ -364,7 +364,8 @@
 
         .phantom {
             width: 100%;
-            min-height: 168px;
+            height: 100%;
+            min-height: 0;
             border: 1px dashed rgba(255, 255, 255, 0.22);
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.03);

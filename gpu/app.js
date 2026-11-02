@@ -1,8 +1,10 @@
 const MAX = 6;
+const SLOTS = 5;
 const ICON = {
     prev: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     next: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    remove: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+    remove: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5 11.5 11.5M11.5 4.5 4.5 11.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    plus: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
 };
 const byId = Object.fromEntries(GPUS.map((gpu) => [gpu.id, gpu]));
 
@@ -181,7 +183,9 @@ function renderTable() {
     if (!hasCards) return;
 
     const maxScore = Math.max(...cards.map((gpu) => gpu.score));
+    const ghosts = Math.max(0, SLOTS - cards.length);
     const head = [`<th class="stick corner" scope="col"><span class="corner-k">Индекс</span><span class="corner-v">5090 = 100</span></th>`];
+    const palm = [];
     cards.forEach((gpu, index) => {
         const percent = Math.round(gpu.score / maxScore * 100);
         head.push(`<th scope="col" class="gpu-head">
@@ -198,27 +202,38 @@ function renderTable() {
             </div>
             <p class="pct">${percent}% от лидера</p>
         </th>`);
+        palm.push(mobileCard(gpu, index, cards, percent));
     });
+    for (let slot = 0; slot < ghosts; slot += 1) {
+        const label = slot === 0 ? "<span>Добавить</span>" : "<span class=\"visually-hidden\">Добавить видеокарту</span>";
+        head.push(`<th scope="col" class="gpu-head is-phantom"><button type="button" class="phantom" data-act="add">${ICON.plus}${label}</button></th>`);
+    }
+    if (cards.length < MAX) {
+        palm.push(`<button type="button" class="mcard phantom" data-act="add">${ICON.plus}<span>Добавить видеокарту</span></button>`);
+    }
 
-    const body = visibleRows().map((row) => {
+    const rows = visibleRows();
+    const body = rows.map((row) => {
         const best = new Set(bestIndexes(row, cards));
         const cells = cards.map((gpu, index) => {
             const mark = best.has(index) ? (row.better === "low" ? " is-lean" : " is-best") : "";
             const title = best.has(index) ? (row.better === "low" ? ' title="Меньше в этой строке"' : ' title="Больше в этой строке"') : "";
             return `<td class="${mark.trim()}"${title}>${escapeHtml(row.text(gpu))}</td>`;
         }).join("");
-        return `<tr><th class="stick" scope="row">${row.label}</th>${cells}</tr>`;
+        const blanks = "<td class=\"is-phantom\"></td>".repeat(ghosts);
+        return `<tr><th class="stick" scope="row">${row.label}</th>${cells}${blanks}</tr>`;
     }).join("");
 
     const note = body
         ? ""
-        : `<tr><td class="span-note" colspan="${cards.length + 1}">Отметьте строки, которые нужно показать.</td></tr>`;
+        : `<tr><td class="span-note" colspan="${cards.length + ghosts + 1}">Отметьте строки, которые нужно показать.</td></tr>`;
 
-    sheet.innerHTML = `<table class="compare">
+    sheet.classList.toggle("is-wide", cards.length > SLOTS);
+    sheet.innerHTML = `<div class="desk"><table class="compare">
         <caption class="visually-hidden">Сравнение выбранных видеокарт</caption>
         <thead><tr>${head.join("")}</tr></thead>
         <tbody>${body || note}</tbody>
-    </table>`;
+    </table></div><div class="palm">${palm.join("")}</div>`;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     sheet.querySelectorAll(".bar i").forEach((bar) => {
         const width = bar.style.width;
@@ -227,6 +242,27 @@ function renderTable() {
             bar.style.width = width;
         });
     });
+}
+
+function mobileCard(gpu, index, cards, percent) {
+    const specs = visibleRows().map((row) => {
+        const best = new Set(bestIndexes(row, cards));
+        const mark = best.has(index) ? (row.better === "low" ? " is-lean" : " is-best") : "";
+        return `<div class="mrow"><dt>${row.label}</dt><dd class="${mark.trim()}">${escapeHtml(row.text(gpu))}</dd></div>`;
+    }).join("");
+    return `<article class="mcard">
+        <div class="gpu-tools">
+            <button type="button" data-act="prev" data-i="${index}" aria-label="Сдвинуть ${escapeHtml(gpu.name)} влево" ${index === 0 ? "disabled" : ""}>${ICON.prev}</button>
+            <button type="button" data-act="next" data-i="${index}" aria-label="Сдвинуть ${escapeHtml(gpu.name)} вправо" ${index === cards.length - 1 ? "disabled" : ""}>${ICON.next}</button>
+            <button type="button" data-act="remove" data-i="${index}" aria-label="Убрать ${escapeHtml(gpu.name)}">${ICON.remove}</button>
+        </div>
+        <p class="gpu-vendor"><span class="dot vendor-${gpu.vendor}"></span>${gpu.vendor}</p>
+        <h2 class="gpu-name">${escapeHtml(gpu.name)}</h2>
+        <p class="idx">${gpu.score}</p>
+        <div class="bar" role="img" aria-label="${percent}% от лидера этого сравнения"><i class="vendor-${gpu.vendor}" style="width:${percent}%"></i></div>
+        <p class="pct">${percent}% от лидера</p>
+        <div class="mspecs">${specs}</div>
+    </article>`;
 }
 
 function renderCustom() {
@@ -317,6 +353,7 @@ menu.addEventListener("click", (event) => {
 });
 
 document.addEventListener("click", (event) => {
+    if (event.target.closest("[data-act='add']")) return;
     if (!event.target.closest(".picker")) closeMenu();
 });
 document.addEventListener("keydown", (event) => {
@@ -350,6 +387,11 @@ chips.addEventListener("click", (event) => {
 sheet.addEventListener("click", (event) => {
     const button = event.target.closest("[data-act]");
     if (!button || button.disabled) return;
+    if (button.dataset.act === "add") {
+        search.focus();
+        openMenu();
+        return;
+    }
     const index = Number(button.dataset.i);
     if (button.dataset.act === "remove") selected.splice(index, 1);
     if (button.dataset.act === "prev" && index > 0) {

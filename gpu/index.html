@@ -266,13 +266,15 @@
         }
 
         .sheet { overflow: visible; }
+        .sheet.is-wide { overflow-x: auto; }
+        .desk { overflow: visible; }
+        .palm { display: none; }
         .sheet[hidden], .empty[hidden], .custom[hidden], .menu[hidden] { display: none; }
 
         table.compare {
-            width: 100%;
+            width: max-content;
             border-collapse: separate;
             border-spacing: 0;
-            min-width: 640px;
         }
 
         .compare th, .compare td {
@@ -288,7 +290,13 @@
             top: 49px;
             background: var(--bg-head);
             z-index: 2;
-            min-width: 200px;
+        }
+
+        .gpu-head,
+        .compare tbody td {
+            width: 228px;
+            min-width: 228px;
+            max-width: 228px;
         }
 
         .stick {
@@ -334,6 +342,37 @@
         .gpu-tools button:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
         .gpu-tools button[data-act="remove"]:hover { background: rgba(255, 90, 70, 0.16); color: #ffb4a8; }
         .gpu-tools button:disabled { opacity: 0.22; cursor: default; background: transparent; color: rgba(255, 255, 255, 0.62); }
+
+        th.is-phantom {
+            background: transparent;
+            vertical-align: stretch;
+            border-bottom-color: transparent;
+        }
+
+        td.is-phantom {
+            background: transparent;
+            border-bottom-color: transparent;
+        }
+
+        .phantom {
+            width: 100%;
+            min-height: 168px;
+            border: 1px dashed rgba(255, 255, 255, 0.22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font: 500 14px/1 Inter, sans-serif;
+            cursor: pointer;
+        }
+
+        .phantom svg { width: 22px; height: 22px; }
+        .phantom:hover { border-color: rgba(255, 140, 0, 0.7); color: var(--text-primary); }
+
         .gpu-name { font-weight: 600; line-height: 1.3; margin: 8px 0 10px; }
         .idx {
             font-family: "JetBrains Mono", monospace;
@@ -414,13 +453,55 @@
         }
 
         @media (max-width: 720px) {
-            h1 { font-size: 1.6rem; }
-            .stick { min-width: 112px; width: 112px; }
+            h1 { font-size: 1.55rem; }
+            .page { padding: 76px 12px 40px; }
+            .lede { margin-bottom: 16px; }
+            .desk { display: none; }
+            .palm { display: flex; flex-direction: column; gap: 12px; }
+            .sheet {
+                background: transparent;
+                border: 0;
+                backdrop-filter: none;
+                overflow: visible;
+            }
+            .mcard {
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid var(--border-color);
+                border-radius: 16px;
+                padding: 16px;
+            }
+            .mcard .gpu-tools { margin: -4px -4px 8px; }
+            .mcard .gpu-tools button { width: 44px; height: 44px; }
+            .mcard .gpu-name { font-size: 1.25rem; margin: 4px 0 8px; }
+            .mspecs { margin-top: 12px; }
+            .mrow {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                gap: 12px;
+                padding: 10px 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                font-size: 14px;
+            }
+            .mrow dt { flex: 0 1 46%; color: var(--text-muted); }
+            .mrow dd {
+                flex: 1 1 50%;
+                min-width: 0;
+                margin: 0;
+                text-align: right;
+                overflow-wrap: anywhere;
+                font-variant-numeric: tabular-nums;
+            }
+            .mcard.phantom {
+                min-height: 120px;
+                border-style: dashed;
+                background: rgba(255, 255, 255, 0.03);
+                color: var(--text-muted);
+            }
             .vendors button, .seg button, .ghost, .chip, .copy { min-height: 44px; }
-            .compare thead th { min-width: 168px; }
-            .idx { font-size: 1.6rem; }
             .share { flex-wrap: wrap; }
             #copy-status { min-width: 0; }
+            .controls { margin-top: 4px; }
         }
     </style>
 </head>

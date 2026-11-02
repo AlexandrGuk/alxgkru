@@ -265,7 +265,7 @@
             font-size: 14px;
         }
 
-        .sheet { overflow: visible; }
+        .sheet { overflow: visible; width: fit-content; max-width: 100%; }
         .sheet.is-wide { overflow-x: auto; }
         .desk { overflow: visible; }
         .palm { display: none; }
@@ -450,6 +450,7 @@
             .desk { display: none; }
             .palm { display: flex; flex-direction: column; gap: 12px; }
             .sheet {
+                width: 100%;
                 background: transparent;
                 border: 0;
                 backdrop-filter: none;

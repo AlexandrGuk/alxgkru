@@ -26,11 +26,12 @@
         }
 
         body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
             height: 100vh;
-            padding: calc(var(--nav-height) + 12px) 12px 12px;
-            color: var(--text-primary);
+        }
+
+        .page {
+            padding-top: calc(var(--nav-height) + 12px);
+            padding-bottom: 12px;
         }
 
         .container {
@@ -275,12 +276,12 @@
         }
     </style>
 </head>
-<body>
+<body class="page layout-wide">
     <nav class="nav">
         <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
-    <div class="container">
+    <div class="container window-open">
         <div class="header">
             <h1 class="page-title">JSON-парсер онлайн</h1>
             <p>Парсер JSON с интерактивным просмотром и подсветкой синтаксиса</p>

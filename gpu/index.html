@@ -30,19 +30,6 @@
             --lean: #8eb4ff;
         }
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-
-        .page {
-            max-width: calc(168px + 228px * 5 + 40px);
-            margin: 0 auto;
-            padding: calc(var(--nav-height) + 32px) 20px 56px;
-        }
-
         h1 { margin-bottom: 12px; }
 
         .lede {
@@ -421,7 +408,7 @@
         }
 
         @media (max-width: 720px) {
-            .page { padding: calc(var(--nav-height) + 24px) 12px 40px; }
+            .page { padding-top: calc(var(--nav-height) + 24px); padding-bottom: 40px; }
             .lede { margin-bottom: 24px; }
             .desk { display: none; }
             .palm { display: flex; flex-direction: column; gap: 24px; }
@@ -471,7 +458,7 @@
         }
     </style>
 </head>
-<body>
+<body class="layout-wide">
     <nav class="nav">
         <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
@@ -480,7 +467,7 @@
         <h1 class="page-title">Сравнение видеокарт</h1>
         <p class="lede">Десктопные и ноутбучные карты 2013–2025. Выберите до шести и смотрите характеристики рядом. Полоска — доля от самой быстрой карты в этом сравнении.</p>
 
-        <div class="toolbar">
+        <div class="toolbar window-open">
             <div class="picker">
                 <label class="visually-hidden" for="q">Найти видеокарту</label>
                 <input id="q" class="q" type="search" placeholder="Название, например 4070" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="menu" aria-autocomplete="list">

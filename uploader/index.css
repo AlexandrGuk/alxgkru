@@ -4,19 +4,6 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: var(--font-body);
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
-    padding: calc(var(--nav-height) + 32px) 20px 48px;
-}
-
-.uploader.parent {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .lead {
     margin: 12px 0 36px;
     color: var(--text-secondary);
@@ -150,8 +137,8 @@ input.height {
 }
 
 .rules {
-    max-width: 800px;
-    margin: 36px auto 0;
+    max-width: 80ch;
+    margin-top: 36px;
     font-size: 0.75rem;
     line-height: 1.6;
     color: var(--text-muted);

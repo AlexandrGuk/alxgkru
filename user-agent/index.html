@@ -25,17 +25,7 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            min-height: 100vh;
-            padding: calc(var(--nav-height) + 28px) 16px 40px;
-            color: var(--text-primary);
-        }
-
         .container {
-            max-width: 900px;
-            margin: 0 auto;
             background-color: var(--window);
             background-image: var(--window-bg);
             box-shadow: var(--window-frame);
@@ -169,7 +159,8 @@
         <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
-    <div class="container">
+    <main class="page">
+    <div class="container window-open">
         <div class="header">
             <h1 class="page-title">Мой User Agent</h1>
             <p>Показ и парсинг User Agent</p>
@@ -192,6 +183,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     <script>
         function parseUA(uaString) {

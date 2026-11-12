@@ -25,19 +25,6 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: calc(var(--nav-height) + 28px) 20px 40px;
-        }
-
         .header {
             margin-bottom: 28px;
         }
@@ -246,11 +233,6 @@
         }
         
         @media (max-width: 768px) {
-            .container {
-                padding-left: 16px;
-                padding-right: 16px;
-            }
-
             .settings-grid {
                 grid-template-columns: 1fr;
             }
@@ -261,19 +243,19 @@
         }
     </style>
 </head>
-<body>
+<body class="layout-wide">
     <nav class="nav">
         <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
-    
-    <div class="container">
+
+    <div class="page">
         <header class="header">
             <h1 class="page-title">Минификатор HTML</h1>
         </header>
         
         <div class="main-content">
-            <div class="panel">
+            <div class="panel window-open">
                 <div class="panel-header">
                     <span class="panel-title">Входной HTML</span>
                     <div class="panel-controls">
@@ -285,7 +267,7 @@
                 </div>
             </div>
             
-            <div class="panel">
+            <div class="panel window-open">
                 <div class="panel-header">
                     <span class="panel-title">Минифицированный HTML</span>
                     <div class="panel-controls">
@@ -298,7 +280,7 @@
             </div>
         </div>
         
-        <div class="settings-panel">
+        <div class="settings-panel window-open">
             <div class="settings-title">Настройки минификации</div>
             <div class="settings-grid">
                 <div class="setting-item">

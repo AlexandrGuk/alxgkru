@@ -27,19 +27,14 @@
         }
 
         body {
-            min-height: 100vh;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-body);
             line-height: 1.5;
         }
 
         .screen {
             display: grid;
             gap: 12px;
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 40px 12px 32px;
+            padding-top: 40px;
+            padding-bottom: 32px;
         }
 
         .intro {
@@ -52,6 +47,14 @@
             font-weight: 400;
             line-height: 1.25;
             text-shadow: 0.125em 0.125em 0 var(--ink);
+        }
+
+        /* 10ch = the 10 glyphs of "alxgk.site" in the monospace pixel font */
+        .intro h1 {
+            width: 10ch;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: type 0.8s steps(10) 0.2s backwards;
         }
 
         .intro p {
@@ -74,6 +77,7 @@
 
         .menu {
             padding: 24px 16px 16px;
+            animation-delay: 0.12s;
         }
 
         .menu .window-title {
@@ -99,20 +103,15 @@
             text-decoration: none;
         }
 
-        .menu-item::before {
-            content: "";
+        .menu-cursor {
             position: absolute;
             top: 32px;
             left: 14px;
             width: 15px;
             height: 27px;
             background: url("assets/sprites/cursor.svg") no-repeat center / contain;
-            opacity: 0;
-        }
-
-        .menu-item:hover::before,
-        .menu-item:focus-visible::before {
-            opacity: 1;
+            pointer-events: none;
+            transition: translate 0.12s steps(3);
             animation: nudge 0.6s steps(2, jump-none) infinite;
         }
 
@@ -139,6 +138,7 @@
         .menu-item:hover .menu-name,
         .menu-item:focus-visible .menu-name {
             color: var(--accent-orange);
+            animation: palette-cycle 0.6s steps(1) infinite;
         }
 
         .menu-desc {
@@ -164,6 +164,12 @@
         @keyframes blink {
             to {
                 opacity: 0;
+            }
+        }
+
+        @keyframes type {
+            from {
+                width: 0;
             }
         }
 
@@ -213,21 +219,27 @@
                 padding-left: 12px;
             }
 
-            .menu-item::before {
+            .menu-cursor {
                 display: none;
             }
         }
 
         @media (prefers-reduced-motion: reduce) {
             .intro::after,
-            .menu-item::before {
-                animation: none;
+            .intro h1,
+            .menu-cursor,
+            .menu-item .menu-name {
+                animation: none !important;
+            }
+
+            .menu-cursor {
+                transition: none;
             }
         }
     </style>
 </head>
 <body>
-    <main class="screen">
+    <main class="page screen">
         <header class="window intro">
             <h1>alxgk.site</h1>
             <p>Небольшие онлайн-инструменты и одна игра. Всё бесплатно и без регистрации — выберите, что нужно.</p>
@@ -293,9 +305,45 @@
                     </a>
                 </li>
             </ul>
+            <span class="menu-cursor" aria-hidden="true"></span>
         </nav>
 
         <footer class="credits">© 2026 alxgk.site</footer>
     </main>
+    <script>
+        const menu = document.querySelector('.menu');
+        const cursor = menu.querySelector('.menu-cursor');
+        let current = menu.querySelector('.menu-item');
+
+        const place = () => {
+            cursor.style.translate = `${current.offsetLeft}px ${current.offsetTop}px`;
+        };
+
+        const follow = (event) => {
+            const item = event.target.closest('.menu-item');
+            if (item && item !== current) {
+                current = item;
+                place();
+            }
+        };
+
+        const list = menu.querySelector('.menu-list');
+        const items = [...menu.querySelectorAll('.menu-item')];
+
+        menu.addEventListener('keydown', (event) => {
+            const index = items.indexOf(event.target);
+            if (index === -1) return;
+            const columns = getComputedStyle(list).gridTemplateColumns.split(' ').length;
+            const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -columns, ArrowDown: columns }[event.key];
+            const target = items[index + step];
+            if (!step || !target) return;
+            event.preventDefault();
+            target.focus();
+        });
+
+        menu.addEventListener('pointerover', follow);
+        menu.addEventListener('focusin', follow);
+        new ResizeObserver(place).observe(menu);
+    </script>
 </body>
 </html>

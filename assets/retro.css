@@ -7,6 +7,7 @@
     --ink: #05071a;
     --field: #080b22;
     --accent-orange: #ff8c00;
+    --accent-yellow: #ffd24a;
     --accent-blue: #667eea;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.78);
@@ -22,11 +23,31 @@
         0 calc(var(--px) * 2) 0 0 var(--ink),
         calc(var(--px) * -2) 0 0 0 var(--ink),
         calc(var(--px) * 2) 0 0 0 var(--ink),
-        0 0 0 var(--px) var(--ink);
+        0 0 0 var(--px) var(--ink),
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 #000;
     --nav-height: 52px;
+    --page-width: 960px;
+    --gutter: 20px;
     --font-pixel: "Press Start 2P", "Courier New", monospace;
     --font-body: "Inter", system-ui, sans-serif;
     --font-code: "JetBrains Mono", "Courier New", monospace;
+}
+
+body {
+    min-height: 100vh;
+    background: repeating-linear-gradient(var(--bg-primary) 0 2px, #070a1e 2px 4px);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+}
+
+.layout-wide {
+    --page-width: 1312px;
+}
+
+/* Same inset formula as .nav so page content lines up with the nav links */
+.page {
+    box-sizing: border-box;
+    padding: calc(var(--nav-height) + 32px) max(var(--gutter), (100% - var(--page-width)) / 2) 48px;
 }
 
 .window {
@@ -36,6 +57,27 @@
     background-color: var(--window);
     background-image: var(--window-bg);
     box-shadow: var(--window-frame);
+}
+
+.window,
+.window-open {
+    animation: window-open 0.2s steps(4) backwards;
+}
+
+@keyframes window-open {
+    from {
+        transform: scaleY(0);
+    }
+}
+
+@keyframes palette-cycle {
+    33% {
+        color: var(--accent-yellow);
+    }
+
+    66% {
+        color: var(--text-primary);
+    }
 }
 
 .window-title {
@@ -68,7 +110,7 @@
     align-items: center;
     gap: 16px;
     height: var(--nav-height);
-    padding: 0 20px;
+    padding: 0 max(var(--gutter), (100% - var(--page-width)) / 2);
     background: var(--ink);
     border-bottom: var(--px) solid var(--frame);
     font-family: var(--font-pixel);
@@ -84,6 +126,7 @@
 .nav a:hover,
 .nav a:focus-visible {
     color: var(--accent-orange);
+    animation: palette-cycle 0.6s steps(1) infinite;
 }
 
 .nav-home {
@@ -141,12 +184,23 @@
 }
 
 @media (max-width: 720px) {
+    :root {
+        --gutter: 12px;
+    }
+
     .page-title {
         font-size: 1rem;
     }
 
     .nav {
-        padding: 0 12px;
         font-size: 0.625rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .window,
+    .window-open,
+    .nav a {
+        animation: none !important;
     }
 }

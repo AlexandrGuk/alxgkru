@@ -25,10 +25,11 @@
     <a href="../" class="nav-home">alxgk.site</a>
     <a href="../">Главная</a>
 </nav>
+<main class="page">
 <div class="uploader parent">
     <h1 class="page-title">Загрузка картинок</h1>
     <p class="lead">JPG, PNG или GIF до 5 МБ. После загрузки получите прямую ссылку, превью нужного размера и BB-код для форума.</p>
-    <div class="uploader-container">
+    <div class="uploader-container window-open">
         <div class="form-wrapper">
             <form method="post" enctype="multipart/form-data">
                 <input type="file" name="files[]" class="file"/>
@@ -73,5 +74,6 @@
     3. Владельцы сайта не несут ответственность за содержание изображений и файлов, размещенных пользователями.<br>
     4. Решение владельцев сайта об удалении размещенных пользователями файлов и изображений не может быть оспорено пользователями. Пользование сайтом alxgk.site является свидетельством безоговорочного принятия условий данных Правил
 </div>
+</main>
 </body>
 </html>

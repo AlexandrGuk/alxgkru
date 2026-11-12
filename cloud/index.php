@@ -78,19 +78,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: calc(var(--nav-height) + 32px) 20px 48px;
-        }
-
         .lead {
             margin: 12px 0 36px;
             color: var(--text-secondary);
@@ -171,10 +158,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
         <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
-    <main class="container">
+    <main class="page">
         <h1 class="page-title">Общий текст</h1>
         <p class="lead">Сохраните текст на одном устройстве и загрузите на другом. Текст один на всех и виден каждому, кто откроет страницу.</p>
-        <div class="editor">
+        <div class="editor window-open">
             <textarea id="shared_text" placeholder="Введите или вставьте текст здесь..." oninput="updateTextLength()"></textarea>
             <div class="meta">
                 <span id="current-length">Длина текста: 0 символов</span>

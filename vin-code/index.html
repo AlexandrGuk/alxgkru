@@ -25,19 +25,6 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: calc(var(--nav-height) + 32px) 20px 48px;
-        }
-
         h1 {
             margin-bottom: 20px;
         }
@@ -140,7 +127,7 @@
         <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
-    <main class="container">
+    <main class="page">
         <h1 class="page-title">Как самому посчитать инженерный код по VIN</h1>
         <p class="lead">Калькулятор для электромобиля Q05 Max.</p>
         <ol>
@@ -151,7 +138,7 @@
             <li>Обрамляем: *#КОД#*</li>
         </ol>
         <p class="example">Пример: хвост VIN <code>097483</code> → <code>047398</code> → <code>0417398</code> → <code>04173098</code> → <code>*#04173098#*</code></p>
-        <form id="vin-form">
+        <form id="vin-form" class="window-open">
             <label for="vin-input">VIN или последние 6 символов</label>
             <input id="vin-input" name="vin" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="097483">
             <div class="output">

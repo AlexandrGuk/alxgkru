@@ -45,6 +45,7 @@ alxgkru/
 ├── cloud/
 ├── vin-code/
 ├── game-forest/
+├── tools/              # исходники спрайтов, иконки и превью
 ├── robots.txt
 ├── sitemap.xml
 └── .htaccess

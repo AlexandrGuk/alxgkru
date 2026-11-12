@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex">
+    <title>Картинка для превью ссылок</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/retro.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 1200px;
+            height: 630px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+        }
+
+        .card {
+            --px: 8px;
+            width: 1040px;
+            height: 470px;
+            padding: 56px 64px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: var(--window);
+            background-image: var(--window-bg);
+            box-shadow: var(--window-frame);
+        }
+
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            font: 400 72px/1 var(--font-pixel);
+            color: var(--text-primary);
+            text-shadow: 8px 8px 0 var(--ink);
+        }
+
+        h1 img {
+            width: 40px;
+            height: 72px;
+        }
+
+        p {
+            font: 500 36px/1.35 var(--font-body);
+            color: var(--text-secondary);
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .row img {
+            width: 96px;
+            height: 96px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1><img src="../assets/sprites/cursor.svg" alt="">alxgk.site</h1>
+        <p>Сравнение видеокарт, JSON-парсер и другие онлайн-инструменты</p>
+        <div class="row">
+            <img src="../assets/sprites/gpu.svg" alt="">
+            <img src="../assets/sprites/json.svg" alt="">
+            <img src="../assets/sprites/html.svg" alt="">
+            <img src="../assets/sprites/ua.svg" alt="">
+            <img src="../assets/sprites/image.svg" alt="">
+            <img src="../assets/sprites/cloud.svg" alt="">
+            <img src="../assets/sprites/key.svg" alt="">
+            <img src="../assets/sprites/forest.svg" alt="">
+        </div>
+    </div>
+</body>
+</html>

@@ -22,12 +22,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-solid: #121a52;
-            --bg-head: #1e2876;
-            --nvidia: #9ad36a;
+            --bg-solid: #080c18;
+            --bg-head: #11182c;
+            --nvidia: #2eff7b;
             --amd: #ff8c00;
-            --intel: #8eb4ff;
-            --lean: #8eb4ff;
+            --intel: #38d9ff;
+            --lean: #38d9ff;
         }
 
         h1 { margin-bottom: 12px; }
@@ -72,8 +72,14 @@
 
         .q::placeholder { color: var(--text-muted); }
 
+        .q:focus {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 12px rgba(255, 140, 0, 0.35);
+            outline: none;
+        }
+
         .q:focus-visible, button:focus-visible, .link:focus-visible, input:focus-visible {
-            outline: 2px solid var(--accent-orange);
+            outline: 2px solid var(--accent-yellow);
             outline-offset: 2px;
         }
 
@@ -114,7 +120,7 @@
             font: inherit;
         }
 
-        .option[aria-selected="true"], .option:hover { background: #242f88; }
+        .option[aria-selected="true"], .option:hover { background: rgba(255, 140, 0, 0.18); }
         .option:disabled { cursor: default; opacity: 0.45; }
         .option-name { display: block; font-weight: 600; }
         .option-meta { display: block; color: var(--text-muted); font-size: 12px; margin-top: 2px; }
@@ -131,22 +137,24 @@
             min-height: 36px;
             border-radius: 0;
             border: 2px solid var(--frame);
-            background: var(--ink);
-            color: var(--text-primary);
+            background: var(--field);
+            color: var(--accent-yellow);
             font: 500 14px/1 Inter, sans-serif;
             padding: 0 14px;
             cursor: pointer;
         }
 
-        .vendors button:hover, .seg button:hover, .ghost:hover {
-            background: var(--frame);
-            color: var(--ink);
+        .vendors button:hover, .seg button:hover, .ghost:hover, .chip:hover {
+            background: var(--accent-orange);
+            color: #000;
+            box-shadow: 0 0 16px var(--accent-orange);
         }
 
         .vendors button.is-on, .seg button.is-on {
             background: var(--accent-orange);
             border-color: var(--accent-orange);
-            color: #1a1004;
+            color: #000;
+            box-shadow: 0 0 12px rgba(255, 140, 0, 0.35);
         }
 
         .meta-row {
@@ -159,7 +167,7 @@
             font-size: 13px;
         }
 
-        .limit { color: #ffb15c; }
+        .limit { color: var(--accent-yellow); }
 
         .chips { display: flex; flex-wrap: wrap; gap: 8px; min-height: 0; }
         .chips:empty { display: none; }
@@ -185,9 +193,9 @@
             line-height: 1;
         }
 
-        .tag-NVIDIA { color: #c6ef9a; background: rgba(154, 211, 106, 0.16); }
-        .tag-AMD { color: #ffb0ac; background: rgba(225, 6, 0, 0.22); }
-        .tag-Intel { color: #c5d6ff; background: rgba(142, 180, 255, 0.16); }
+        .tag-NVIDIA { color: #2eff7b; background: rgba(46, 255, 123, 0.14); }
+        .tag-AMD { color: #ffb347; background: rgba(255, 140, 0, 0.18); }
+        .tag-Intel { color: #38d9ff; background: rgba(56, 217, 255, 0.14); }
         .gpu-vendor { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .tag-laptop { color: #ddd9ee; background: rgba(255, 255, 255, 0.08); }
 
@@ -276,7 +284,7 @@
             color: var(--text-secondary);
         }
 
-        thead .stick { z-index: 4; background: #242f88; }
+        thead .stick { z-index: 4; background: #141d33; }
 
         .corner-k, .gpu-vendor, .pct {
             display: block;
@@ -302,7 +310,7 @@
         }
         .gpu-tools button svg { width: 16px; height: 16px; display: block; }
         .gpu-tools button:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
-        .gpu-tools button[data-act="remove"]:hover { background: rgba(255, 90, 70, 0.16); color: #ffb4a8; }
+        .gpu-tools button[data-act="remove"]:hover { background: rgba(255, 42, 75, 0.2); color: var(--accent-red); }
         .gpu-tools button:disabled { opacity: 0.22; cursor: default; background: transparent; color: rgba(255, 255, 255, 0.62); }
 
         .compare thead th.is-phantom {
@@ -320,7 +328,7 @@
             width: 100%;
             height: 100%;
             min-height: 0;
-            border: 2px dashed rgba(230, 233, 255, 0.3);
+            border: 2px dashed rgba(255, 140, 0, 0.35);
             background: transparent;
             color: var(--text-muted);
             display: flex;
@@ -333,7 +341,7 @@
         }
 
         .phantom svg { width: 22px; height: 22px; }
-        .phantom:hover { border-color: var(--accent-orange); color: var(--text-primary); }
+        .phantom:hover { border-color: var(--accent-orange); color: var(--accent-yellow); background: rgba(255, 140, 0, 0.06); }
 
         .pct { margin-top: 6px; text-align: left; font-variant-numeric: tabular-nums; }
 
@@ -379,11 +387,11 @@
         .copy {
             background: var(--accent-orange);
             border-color: var(--accent-orange);
-            color: #1a1004;
+            color: #000;
             flex: 0 0 auto;
         }
 
-        .copy:hover { background: #ffb347; border-color: #ffb347; }
+        .copy:hover { background: var(--accent-yellow); border-color: var(--accent-yellow); box-shadow: 0 0 16px var(--accent-orange); }
 
         #copy-status { color: var(--nvidia); font-size: 13px; min-width: 11em; }
 

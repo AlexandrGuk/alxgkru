@@ -117,6 +117,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
 
         textarea:focus {
             border-color: var(--accent-orange);
+            box-shadow: 0 0 12px rgba(255, 140, 0, 0.35);
         }
 
         .button-container {

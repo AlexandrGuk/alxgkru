@@ -89,6 +89,7 @@
         
         .textarea:focus {
             border-color: var(--accent-orange);
+            box-shadow: 0 0 12px rgba(255, 140, 0, 0.35);
         }
         
         .textarea::placeholder {
@@ -651,7 +652,7 @@
                 const btn = event.target;
                 const originalText = btn.textContent;
                 btn.textContent = 'Скопировано!';
-                btn.style.background = 'rgba(74, 222, 128, 0.4)';
+                btn.style.background = 'rgba(46, 255, 123, 0.3)';
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.style.background = '';

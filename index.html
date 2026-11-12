@@ -11,7 +11,7 @@
     <meta property="og:title" content="alxgk.site — сравнение видеокарт, JSON-парсер и другие онлайн-инструменты">
     <meta property="og:description" content="Небольшие бесплатные онлайн-инструменты без регистрации: сравнение видеокарт, JSON-парсер, минификатор HTML, разбор User Agent и браузерный шутер.">
     <meta property="og:url" content="https://alxgk.site/">
-    <meta name="theme-color" content="#0a0e27">
+    <meta name="theme-color" content="#040711">
     <meta property="og:image" content="https://alxgk.site/assets/og.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -46,7 +46,8 @@
             font-size: 3rem;
             font-weight: 400;
             line-height: 1.25;
-            text-shadow: 0.125em 0.125em 0 var(--ink);
+            color: var(--accent-orange);
+            text-shadow: 0.125em 0.125em 0 var(--ink), 0 0 24px rgba(255, 102, 0, 0.55);
         }
 
         /* 10ch = the 10 glyphs of "alxgk.site" in the monospace pixel font */
@@ -115,6 +116,11 @@
             animation: nudge 0.6s steps(2, jump-none) infinite;
         }
 
+        .menu-item:hover,
+        .menu-item:focus-visible {
+            background: rgba(255, 140, 0, 0.08);
+        }
+
         .menu-item:focus-visible {
             outline: 2px dashed var(--frame);
             outline-offset: -2px;
@@ -138,6 +144,7 @@
         .menu-item:hover .menu-name,
         .menu-item:focus-visible .menu-name {
             color: var(--accent-orange);
+            text-shadow: 0.125em 0.125em 0 var(--ink), 0 0 12px var(--accent-orange);
             animation: palette-cycle 0.6s steps(1) infinite;
         }
 

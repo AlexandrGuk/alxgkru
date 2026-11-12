@@ -2,16 +2,16 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const palette = {
-    K: '#05071a',
+    K: '#03050c',
     W: '#ffffff',
-    L: '#b9c0ee',
-    B: '#667eea',
-    D: '#3a47b8',
+    L: '#c2cbd8',
+    B: '#38d9ff',
+    D: '#176b87',
     O: '#ff8c00',
-    Y: '#ffd24a',
-    G: '#46d17a',
-    E: '#1f8f55',
-    R: '#ff5470'
+    Y: '#ffb347',
+    G: '#2eff7b',
+    E: '#169c48',
+    R: '#ff2a4b'
 };
 
 const sprites = {

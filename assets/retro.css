@@ -1,18 +1,20 @@
 :root {
     color-scheme: dark;
-    --bg-primary: #0a0e27;
-    --window: #121a52;
-    --window-bg: linear-gradient(#2a369a 0 20%, #242f88 20% 40%, #1e2876 40% 60%, #182164 60% 80%, #121a52 80%);
-    --frame: #e6e9ff;
-    --ink: #05071a;
-    --field: #080b22;
+    --bg-primary: #040711;
+    --window: #080c18;
+    --window-bg: linear-gradient(#141d33 0 20%, #11182c 20% 40%, #0d1324 40% 60%, #0a0f1d 60% 80%, #080c18 80%);
+    --frame: #ff8c00;
+    --ink: #03050c;
+    --field: #050814;
     --accent-orange: #ff8c00;
-    --accent-yellow: #ffd24a;
-    --accent-blue: #667eea;
+    --accent-yellow: #ffb347;
+    --accent-blue: #38d9ff;
+    --accent-green: #2eff7b;
+    --accent-red: #ff2a4b;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.78);
     --text-muted: rgba(255, 255, 255, 0.55);
-    --border-color: rgba(230, 233, 255, 0.16);
+    --border-color: rgba(255, 140, 0, 0.25);
     --px: 4px;
     --window-frame:
         0 calc(var(--px) * -1) 0 0 var(--frame),
@@ -24,7 +26,8 @@
         calc(var(--px) * -2) 0 0 0 var(--ink),
         calc(var(--px) * 2) 0 0 0 var(--ink),
         0 0 0 var(--px) var(--ink),
-        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 #000;
+        calc(var(--px) * 3) calc(var(--px) * 3) 0 0 #000,
+        0 0 24px rgba(0, 0, 0, 0.6);
     --nav-height: 52px;
     --page-width: 960px;
     --gutter: 20px;
@@ -35,7 +38,9 @@
 
 body {
     min-height: 100vh;
-    background: repeating-linear-gradient(var(--bg-primary) 0 2px, #070a1e 2px 4px);
+    background:
+        repeating-linear-gradient(transparent 0 2px, rgba(3, 5, 12, 0.5) 2px 4px),
+        radial-gradient(circle at center, #10182e 0%, var(--bg-primary) 100%);
     color: var(--text-primary);
     font-family: var(--font-body);
 }
@@ -73,10 +78,12 @@ body {
 @keyframes palette-cycle {
     33% {
         color: var(--accent-yellow);
+        text-shadow: 0 0 12px var(--accent-orange);
     }
 
     66% {
         color: var(--text-primary);
+        text-shadow: 0 0 16px var(--accent-orange);
     }
 }
 
@@ -86,7 +93,7 @@ body {
     font-size: 0.75rem;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--text-secondary);
+    color: var(--accent-orange);
 }
 
 .page-title {
@@ -95,7 +102,8 @@ body {
     font-weight: 400;
     line-height: 1.4;
     letter-spacing: 0;
-    text-shadow: 0.125em 0.125em 0 var(--ink);
+    color: var(--accent-orange);
+    text-shadow: 0.125em 0.125em 0 var(--ink), 0 0 20px rgba(255, 102, 0, 0.45);
 }
 
 .nav {
@@ -126,6 +134,7 @@ body {
 .nav a:hover,
 .nav a:focus-visible {
     color: var(--accent-orange);
+    text-shadow: 0 0 10px var(--accent-orange);
     animation: palette-cycle 0.6s steps(1) infinite;
 }
 
@@ -151,8 +160,8 @@ body {
     padding: 6px 14px;
     border: 2px solid var(--frame);
     border-radius: 0;
-    background: var(--ink);
-    color: var(--text-primary);
+    background: var(--field);
+    color: var(--accent-yellow);
     font: 500 0.875rem/1.2 var(--font-body);
     cursor: pointer;
 }
@@ -162,25 +171,27 @@ body {
 }
 
 .btn:hover {
-    background: var(--frame);
-    color: var(--ink);
+    background: var(--accent-orange);
+    color: #000;
+    box-shadow: 0 0 16px var(--accent-orange);
 }
 
 .btn:focus-visible {
-    outline: 2px solid var(--accent-orange);
+    outline: 2px solid var(--accent-yellow);
     outline-offset: 2px;
 }
 
 .btn-primary {
     border-color: var(--accent-orange);
     background: var(--accent-orange);
-    color: #1a1004;
+    color: #000;
 }
 
 .btn-primary:hover {
-    border-color: #ffb347;
-    background: #ffb347;
-    color: #1a1004;
+    border-color: var(--accent-yellow);
+    background: var(--accent-yellow);
+    color: #000;
+    box-shadow: 0 0 16px var(--accent-orange);
 }
 
 @media (max-width: 720px) {

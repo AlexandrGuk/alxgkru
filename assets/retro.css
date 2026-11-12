@@ -1,0 +1,48 @@
+:root {
+    --bg-primary: #0a0e27;
+    --window-top: #2a369a;
+    --window-bottom: #121a52;
+    --frame: #e6e9ff;
+    --ink: #05071a;
+    --accent-orange: #ff8c00;
+    --accent-blue: #667eea;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.78);
+    --px: 4px;
+    --font-pixel: "Press Start 2P", "Courier New", monospace;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-code: "JetBrains Mono", "Courier New", monospace;
+}
+
+.window {
+    position: relative;
+    margin: calc(var(--px) * 2);
+    padding: 24px;
+    background: var(--window-bottom);
+    background: linear-gradient(
+        var(--window-top) 0 20%,
+        color-mix(in srgb, var(--window-top) 75%, var(--window-bottom)) 20% 40%,
+        color-mix(in srgb, var(--window-top) 50%, var(--window-bottom)) 40% 60%,
+        color-mix(in srgb, var(--window-top) 25%, var(--window-bottom)) 60% 80%,
+        var(--window-bottom) 80%
+    );
+    box-shadow:
+        0 calc(var(--px) * -1) 0 0 var(--frame),
+        0 var(--px) 0 0 var(--frame),
+        calc(var(--px) * -1) 0 0 0 var(--frame),
+        var(--px) 0 0 0 var(--frame),
+        0 calc(var(--px) * -2) 0 0 var(--ink),
+        0 calc(var(--px) * 2) 0 0 var(--ink),
+        calc(var(--px) * -2) 0 0 0 var(--ink),
+        calc(var(--px) * 2) 0 0 0 var(--ink),
+        0 0 0 var(--px) var(--ink);
+}
+
+.window-title {
+    margin: 0 0 16px;
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}

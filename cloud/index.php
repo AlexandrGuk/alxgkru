@@ -64,7 +64,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Sharing</title>
+    <title>Общий текст — alxgk.site</title>
     <meta name="robots" content="noindex">
     <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
     <style>
@@ -151,7 +151,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
         <a href="../" class="nav-home">← alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
-    <h1>Text Sharing</h1>
+    <h1>Общий текст</h1>
     <div id="limits">Максимальный размер текста: <?php echo ini_get('post_max_size'); ?></div>
     <textarea id="shared_text" placeholder="Введите или вставьте текст здесь..." oninput="updateTextLength()"></textarea>
     <div id="current-length">Длина текста: 0 символов</div>

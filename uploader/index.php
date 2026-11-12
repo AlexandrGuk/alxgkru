@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uploader - alxgk.site</title>
+    <title>Загрузка картинок — прямая ссылка, превью и BB-код</title>
+    <meta name="description" content="Загрузите изображение JPG, PNG или GIF до 5 МБ и получите прямую ссылку, превью нужного размера и BB-код для форума. Без регистрации.">
     <link rel="canonical" href="https://alxgk.site/uploader/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="alxgk.site">
+    <meta property="og:title" content="Загрузка картинок — прямая ссылка, превью и BB-код">
+    <meta property="og:description" content="Загрузите изображение JPG, PNG или GIF до 5 МБ и получите прямую ссылку, превью нужного размера и BB-код для форума. Без регистрации.">
+    <meta property="og:url" content="https://alxgk.site/uploader/">
     <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
     <link href="index.css" rel="stylesheet">
     <style>

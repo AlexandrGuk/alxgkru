@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uploader - alxgk.site</title>
+    <link rel="canonical" href="https://alxgk.site/uploader/">
+    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
     <link href="index.css" rel="stylesheet">
     <style>
         .nav {
@@ -39,8 +41,8 @@
 </head>
 <body>
 <nav class="nav">
-    <a href="../index.html" class="nav-home">← alxgk.site</a>
-    <a href="../index.html">Главная</a>
+    <a href="../" class="nav-home">← alxgk.site</a>
+    <a href="../">Главная</a>
 </nav>
 <div class="uploader parent">
     <div class="uploader-container">

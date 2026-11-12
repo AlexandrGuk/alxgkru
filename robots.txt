@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /uploader/img/
+
+Sitemap: https://alxgk.site/sitemap.xml

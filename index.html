@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>alxgk.site - Personal Services</title>
+    <link rel="canonical" href="https://alxgk.site/">
     <link rel="icon" type="image/png" href="thumbnails/favicon.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -82,7 +83,9 @@
             border-radius: 16px;
             padding: 32px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            display: block;
+            color: inherit;
+            text-decoration: none;
             position: relative;
             overflow: hidden;
             animation: fadeInUp 0.6s ease-out;
@@ -220,81 +223,81 @@
         </header>
         
         <div class="projects-grid">
-            <div class="project-card" onclick="window.location.href='gpu/index.html'">
+            <a class="project-card" href="gpu/">
                 <div class="project-icon">📊</div>
                 <h2 class="project-title">Видеокарты</h2>
                 <p class="project-description">
                     Сравнение десктопных видеокарт: характеристики рядом и полоска относительного быстродействия.
                 </p>
-                <a href="gpu/index.html" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
 
-            <div class="project-card" onclick="window.location.href='json-parser/index.html'">
+            <a class="project-card" href="json-parser/">
                 <div class="project-icon">🔧</div>
                 <h2 class="project-title">JSON Parser</h2>
                 <p class="project-description">
                     Онлайн парсер JSON с интерактивным просмотром и подсветкой синтаксиса. 
                     Форматирование и валидация JSON данных.
                 </p>
-                <a href="json-parser/index.html" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
             
-            <div class="project-card" onclick="window.location.href='html-minifier/index.html'">
+            <a class="project-card" href="html-minifier/">
                 <div class="project-icon">📝</div>
                 <h2 class="project-title">HTML Minifier</h2>
                 <p class="project-description">
                     Минификация HTML. Удаление ненужных элементов с сохранением структуры и важных атрибутов.
                 </p>
-                <a href="html-minifier/index.html" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
             
-            <div class="project-card" onclick="window.location.href='game-forest/index.html'">
+            <a class="project-card" href="game-forest/">
                 <div class="project-icon">🎮</div>
                 <h2 class="project-title">Game Forest</h2>
                 <p class="project-description">
                     3D игра на Three.js в стиле шутера от первого лица. 
                     Выживай в темном лесу, уничтожай врагов и собирай припасы.
                 </p>
-                <a href="game-forest/index.html" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
             
-            <div class="project-card" onclick="window.location.href='uploader/index.php'">
+            <a class="project-card" href="uploader/">
                 <div class="project-icon">📤</div>
                 <h2 class="project-title">Uploader</h2>
                 <p class="project-description">
                     Сервис загрузки изображений с созданием превью и генерацией BB-кодов. 
                     Поддержка форматов JPG, PNG, GIF.
                 </p>
-                <a href="uploader/index.php" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
             
-            <div class="project-card" onclick="window.location.href='cloud/index.php'">
+            <a class="project-card" href="cloud/">
                 <div class="project-icon">☁️</div>
                 <h2 class="project-title">Cloud Text</h2>
                 <p class="project-description">
                     Совместное редактирование текста в реальном времени. 
                     Сохраняй и делись текстом через облако.
                 </p>
-                <a href="cloud/index.php" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
             
-            <div class="project-card" onclick="window.location.href='user-agent/index.html'">
+            <a class="project-card" href="user-agent/">
                 <div class="project-icon">🔍</div>
                 <h2 class="project-title">User Agent Parser</h2>
                 <p class="project-description">
                     Показ и парсинг User Agent. Определение браузера, ОС и устройства.
                 </p>
-                <a href="user-agent/index.html" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
 
-            <div class="project-card" onclick="window.location.href='vin-code/index.html'">
+            <a class="project-card" href="vin-code/">
                 <div class="project-icon">🔑</div>
                 <h2 class="project-title">Инженерный код Q05 Max</h2>
                 <p class="project-description">
                     Калькулятор инженерного кода по VIN для Q05 Max.
                 </p>
-                <a href="vin-code/index.html" class="project-link">Открыть</a>
-            </div>
+                <span class="project-link">Открыть</span>
+            </a>
         </div>
         
         <footer class="footer">

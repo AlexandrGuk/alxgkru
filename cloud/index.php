@@ -60,11 +60,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Text Sharing</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Sharing</title>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
     <style>
         .nav {
             position: fixed;
@@ -146,8 +148,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
 </head>
 <body>
     <nav class="nav">
-        <a href="../index.html" class="nav-home">← alxgk.site</a>
-        <a href="../index.html">Главная</a>
+        <a href="../" class="nav-home">← alxgk.site</a>
+        <a href="../">Главная</a>
     </nav>
     <h1>Text Sharing</h1>
     <div id="limits">Максимальный размер текста: <?php echo ini_get('post_max_size'); ?></div>

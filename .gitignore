@@ -25,3 +25,7 @@ uploader/img/*
 
 # cloud: runtime data on server only
 cloud/shared_text.txt
+
+# game-forest: runtime leaderboard scores on server only
+game-forest/scores.json
+

@@ -256,11 +256,21 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_text') {
 
         function displayText(text) {
             const displayDiv = document.getElementById('display-text');
-            // Регулярное выражение для поиска URL
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
-            // Заменяем URL на кликабельные ссылки
-            const htmlText = text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
-            displayDiv.innerHTML = htmlText;
+            const fragment = document.createDocumentFragment();
+            // split() with a capture group puts URLs at odd indexes
+            text.split(/(https?:\/\/[^\s]+)/g).forEach((part, index) => {
+                if (index % 2 === 0) {
+                    fragment.append(part);
+                    return;
+                }
+                const link = document.createElement('a');
+                link.href = part;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.textContent = part;
+                fragment.append(link);
+            });
+            displayDiv.replaceChildren(fragment);
         }
 
         // Загружаем текст при открытии страницы

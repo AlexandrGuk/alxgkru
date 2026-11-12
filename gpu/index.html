@@ -11,24 +11,19 @@
     <meta property="og:title" content="Сравнение видеокарт NVIDIA, AMD и Intel — характеристики и скорость">
     <meta property="og:description" content="Сравнение десктопных и ноутбучных видеокарт NVIDIA, AMD и Intel 2013–2025: до шести моделей рядом, характеристики и относительный индекс быстродействия.">
     <meta property="og:url" content="https://alxgk.site/gpu/">
-    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+    <meta property="og:image" content="https://alxgk.site/assets/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/retro.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg-primary: #0a0e27;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --bg-solid: #12162f;
-            --bg-head: #171c38;
-            --accent-orange: #ff8c00;
-            --accent-blue: #667eea;
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --border-color: rgba(255, 140, 0, 0.2);
+            --bg-solid: #121a52;
+            --bg-head: #1e2876;
             --nvidia: #9ad36a;
             --amd: #ff8c00;
             --intel: #8eb4ff;
@@ -36,78 +31,50 @@
         }
 
         body {
-            font-family: Inter, sans-serif;
+            font-family: var(--font-body);
             background: var(--bg-primary);
-            background-image:
-                radial-gradient(circle at 18% 0%, rgba(255, 140, 0, 0.12) 0%, transparent 42%),
-                radial-gradient(circle at 90% 20%, rgba(102, 126, 234, 0.12) 0%, transparent 40%);
             color: var(--text-primary);
             min-height: 100vh;
         }
 
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(10, 14, 39, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 20px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .nav a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .nav a:hover { color: var(--accent-orange); }
-
         .page {
-            max-width: calc(168px + 228px * 5 + 42px);
+            max-width: calc(168px + 228px * 5 + 40px);
             margin: 0 auto;
-            padding: 84px 20px 56px;
+            padding: calc(var(--nav-height) + 32px) 20px 56px;
         }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            margin-bottom: 8px;
-        }
+        h1 { margin-bottom: 12px; }
 
         .lede {
             max-width: 68ch;
             color: var(--text-secondary);
             line-height: 1.55;
-            margin-bottom: 28px;
+            margin-bottom: 32px;
         }
 
-        .toolbar, .share, .sheet, .empty, .custom {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
+        .toolbar, .share, .empty, .custom {
+            background-color: var(--window);
+            background-image: var(--window-bg);
+            box-shadow: var(--window-frame);
+        }
+
+        .sheet {
+            background: var(--bg-solid);
+            box-shadow: var(--window-frame);
         }
 
         .toolbar { position: relative; z-index: 30; }
 
-        .toolbar { padding: 16px; margin-bottom: 16px; }
+        .toolbar { padding: 16px; margin-bottom: 24px; }
 
         .picker { position: relative; }
 
         .q {
             width: 100%;
             height: 48px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.25);
+            border-radius: 0;
+            border: 2px solid var(--ink);
+            background-color: var(--field);
             color: var(--text-primary);
             font: 500 16px/1.2 Inter, sans-serif;
             padding: 0 16px 0 44px;
@@ -131,11 +98,9 @@
             top: calc(100% + 6px);
             max-height: 320px;
             overflow: auto;
-            background: #161b36;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background: var(--field);
+            border: 2px solid var(--frame);
             padding: 6px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
         }
 
         .group, .menu-empty {
@@ -155,7 +120,6 @@
             align-items: center;
             text-align: left;
             border: 0;
-            border-radius: 8px;
             background: transparent;
             color: var(--text-primary);
             padding: 8px 10px;
@@ -163,7 +127,7 @@
             font: inherit;
         }
 
-        .option[aria-selected="true"], .option:hover { background: #243056; }
+        .option[aria-selected="true"], .option:hover { background: #242f88; }
         .option:disabled { cursor: default; opacity: 0.45; }
         .option-name { display: block; font-weight: 600; }
         .option-meta { display: block; color: var(--text-muted); font-size: 12px; margin-top: 2px; }
@@ -178,13 +142,18 @@
 
         .vendors button, .seg button, .ghost, .chip, .copy {
             min-height: 36px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: transparent;
-            color: var(--text-secondary);
+            border-radius: 0;
+            border: 2px solid var(--frame);
+            background: var(--ink);
+            color: var(--text-primary);
             font: 500 14px/1 Inter, sans-serif;
             padding: 0 14px;
             cursor: pointer;
+        }
+
+        .vendors button:hover, .seg button:hover, .ghost:hover {
+            background: var(--frame);
+            color: var(--ink);
         }
 
         .vendors button.is-on, .seg button.is-on {
@@ -212,8 +181,6 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.04);
         }
 
         .chip-x { display: inline-flex; opacity: 0.55; }
@@ -225,7 +192,6 @@
             align-items: center;
             height: 18px;
             padding: 0 7px;
-            border-radius: 999px;
             font-size: 11px;
             font-weight: 600;
             letter-spacing: 0.04em;
@@ -243,6 +209,7 @@
         .vendor-Intel { background: var(--intel); }
 
         .empty {
+            margin: 12px 0 28px;
             padding: 36px 24px;
             text-align: center;
         }
@@ -251,18 +218,13 @@
         .empty p { color: var(--text-secondary); margin-bottom: 18px; }
         .pairs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
 
-        .ghost {
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-
         .controls {
             display: flex;
             justify-content: space-between;
             gap: 16px;
             align-items: flex-start;
             flex-wrap: wrap;
-            margin: 8px 0 12px;
+            margin: 8px 0 20px;
         }
 
         .custom {
@@ -270,7 +232,7 @@
             flex-wrap: wrap;
             gap: 8px 14px;
             padding: 12px 14px;
-            margin-bottom: 12px;
+            margin-bottom: 24px;
         }
 
         .custom label {
@@ -303,7 +265,7 @@
 
         .compare thead th {
             position: sticky;
-            top: 49px;
+            top: var(--nav-height);
             background: var(--bg-head);
             z-index: 2;
         }
@@ -327,7 +289,7 @@
             color: var(--text-secondary);
         }
 
-        thead .stick { z-index: 4; background: #1c2244; }
+        thead .stick { z-index: 4; background: #242f88; }
 
         .corner-k, .gpu-vendor, .pct {
             display: block;
@@ -344,7 +306,6 @@
             min-height: 28px;
             padding: 0;
             border: 0;
-            border-radius: 8px;
             background: transparent;
             color: rgba(255, 255, 255, 0.62);
             display: inline-flex;
@@ -372,9 +333,8 @@
             width: 100%;
             height: 100%;
             min-height: 0;
-            border: 1px dashed rgba(255, 255, 255, 0.22);
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.03);
+            border: 2px dashed rgba(230, 233, 255, 0.3);
+            background: transparent;
             color: var(--text-muted);
             display: flex;
             flex-direction: column;
@@ -386,22 +346,20 @@
         }
 
         .phantom svg { width: 22px; height: 22px; }
-        .phantom:hover { border-color: rgba(255, 140, 0, 0.7); color: var(--text-primary); }
+        .phantom:hover { border-color: var(--accent-orange); color: var(--text-primary); }
 
         .pct { margin-top: 6px; text-align: left; font-variant-numeric: tabular-nums; }
 
         .bar {
             height: 10px;
             margin: 10px 0 6px;
-            border-radius: 99px;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--ink);
             overflow: hidden;
         }
 
         .bar i {
             display: block;
             height: 100%;
-            border-radius: inherit;
             width: 0;
         }
 
@@ -417,7 +375,7 @@
             display: flex;
             gap: 8px;
             align-items: center;
-            margin-top: 16px;
+            margin-top: 28px;
             padding: 12px;
         }
 
@@ -438,10 +396,12 @@
             flex: 0 0 auto;
         }
 
+        .copy:hover { background: #ffb347; border-color: #ffb347; }
+
         #copy-status { color: var(--nvidia); font-size: 13px; min-width: 11em; }
 
         .note {
-            margin-top: 18px;
+            margin-top: 24px;
             color: var(--text-muted);
             font-size: 13px;
             line-height: 1.55;
@@ -461,22 +421,19 @@
         }
 
         @media (max-width: 720px) {
-            h1 { font-size: 1.55rem; }
-            .page { padding: 76px 12px 40px; }
-            .lede { margin-bottom: 16px; }
+            .page { padding: calc(var(--nav-height) + 24px) 12px 40px; }
+            .lede { margin-bottom: 24px; }
             .desk { display: none; }
-            .palm { display: flex; flex-direction: column; gap: 12px; }
+            .palm { display: flex; flex-direction: column; gap: 24px; }
             .sheet {
                 width: 100%;
                 background: transparent;
-                border: 0;
-                backdrop-filter: none;
+                box-shadow: none;
                 overflow: visible;
             }
             .mcard {
-                background: rgba(255, 255, 255, 0.04);
-                border: 1px solid var(--border-color);
-                border-radius: 16px;
+                background: var(--bg-solid);
+                box-shadow: var(--window-frame);
                 padding: 16px;
             }
             .mcard .gpu-tools { margin: -4px -4px 8px; }
@@ -503,8 +460,8 @@
             }
             .mcard.phantom {
                 min-height: 120px;
-                border-style: dashed;
-                background: rgba(255, 255, 255, 0.03);
+                background: transparent;
+                box-shadow: none;
                 color: var(--text-muted);
             }
             .vendors button, .seg button, .ghost, .chip, .copy { min-height: 44px; }
@@ -516,11 +473,11 @@
 </head>
 <body>
     <nav class="nav">
-        <a href="../" class="nav-home">← alxgk.site</a>
+        <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
     <main class="page">
-        <h1>Сравнение видеокарт</h1>
+        <h1 class="page-title">Сравнение видеокарт</h1>
         <p class="lede">Десктопные и ноутбучные карты 2013–2025. Выберите до шести и смотрите характеристики рядом. Полоска — доля от самой быстрой карты в этом сравнении.</p>
 
         <div class="toolbar">

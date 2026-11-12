@@ -1,32 +1,19 @@
 :root {
+    color-scheme: dark;
     --bg-primary: #0a0e27;
-    --window-top: #2a369a;
-    --window-bottom: #121a52;
+    --window: #121a52;
+    --window-bg: linear-gradient(#2a369a 0 20%, #242f88 20% 40%, #1e2876 40% 60%, #182164 60% 80%, #121a52 80%);
     --frame: #e6e9ff;
     --ink: #05071a;
+    --field: #080b22;
     --accent-orange: #ff8c00;
     --accent-blue: #667eea;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.78);
+    --text-muted: rgba(255, 255, 255, 0.55);
+    --border-color: rgba(230, 233, 255, 0.16);
     --px: 4px;
-    --font-pixel: "Press Start 2P", "Courier New", monospace;
-    --font-body: "Inter", system-ui, sans-serif;
-    --font-code: "JetBrains Mono", "Courier New", monospace;
-}
-
-.window {
-    position: relative;
-    margin: calc(var(--px) * 2);
-    padding: 24px;
-    background: var(--window-bottom);
-    background: linear-gradient(
-        var(--window-top) 0 20%,
-        color-mix(in srgb, var(--window-top) 75%, var(--window-bottom)) 20% 40%,
-        color-mix(in srgb, var(--window-top) 50%, var(--window-bottom)) 40% 60%,
-        color-mix(in srgb, var(--window-top) 25%, var(--window-bottom)) 60% 80%,
-        var(--window-bottom) 80%
-    );
-    box-shadow:
+    --window-frame:
         0 calc(var(--px) * -1) 0 0 var(--frame),
         0 var(--px) 0 0 var(--frame),
         calc(var(--px) * -1) 0 0 0 var(--frame),
@@ -36,6 +23,19 @@
         calc(var(--px) * -2) 0 0 0 var(--ink),
         calc(var(--px) * 2) 0 0 0 var(--ink),
         0 0 0 var(--px) var(--ink);
+    --nav-height: 52px;
+    --font-pixel: "Press Start 2P", "Courier New", monospace;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-code: "JetBrains Mono", "Courier New", monospace;
+}
+
+.window {
+    position: relative;
+    margin: calc(var(--px) * 2);
+    padding: 24px;
+    background-color: var(--window);
+    background-image: var(--window-bg);
+    box-shadow: var(--window-frame);
 }
 
 .window-title {
@@ -45,4 +45,108 @@
     font-weight: 400;
     line-height: 1.5;
     color: var(--text-secondary);
+}
+
+.page-title {
+    font-family: var(--font-pixel);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-shadow: 0.125em 0.125em 0 var(--ink);
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    height: var(--nav-height);
+    padding: 0 20px;
+    background: var(--ink);
+    border-bottom: var(--px) solid var(--frame);
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    line-height: 1;
+}
+
+.nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+    color: var(--accent-orange);
+}
+
+.nav-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-home::before {
+    content: "";
+    width: 10px;
+    height: 18px;
+    background: url("sprites/cursor.svg") no-repeat center / contain;
+    transform: scaleX(-1);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 14px;
+    border: 2px solid var(--frame);
+    border-radius: 0;
+    background: var(--ink);
+    color: var(--text-primary);
+    font: 500 0.875rem/1.2 var(--font-body);
+    cursor: pointer;
+}
+
+.btn[hidden] {
+    display: none;
+}
+
+.btn:hover {
+    background: var(--frame);
+    color: var(--ink);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent-orange);
+    outline-offset: 2px;
+}
+
+.btn-primary {
+    border-color: var(--accent-orange);
+    background: var(--accent-orange);
+    color: #1a1004;
+}
+
+.btn-primary:hover {
+    border-color: #ffb347;
+    background: #ffb347;
+    color: #1a1004;
+}
+
+@media (max-width: 720px) {
+    .page-title {
+        font-size: 1rem;
+    }
+
+    .nav {
+        padding: 0 12px;
+        font-size: 0.625rem;
+    }
 }

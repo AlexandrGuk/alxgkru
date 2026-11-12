@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Инженерный код Q05 Max по VIN — калькулятор и формула</title>
-    <meta name="description" content="Калькулятор инженерного кода для Q05 Max: введите VIN или его последние 6 символов и получите код вида *#04173098#*. На странице есть пошаговая формула расчёта.">
+    <title>Инженерный код электромобиля Q05 Max по VIN — калькулятор</title>
+    <meta name="description" content="Калькулятор инженерного кода для электромобиля Q05 Max: введите VIN или его последние 6 символов и получите код вида *#04173098#*. На странице есть пошаговая формула расчёта.">
     <link rel="canonical" href="https://alxgk.site/vin-code/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="alxgk.site">
-    <meta property="og:title" content="Инженерный код Q05 Max по VIN — калькулятор и формула">
-    <meta property="og:description" content="Калькулятор инженерного кода для Q05 Max: введите VIN или его последние 6 символов и получите код вида *#04173098#*. На странице есть пошаговая формула расчёта.">
+    <meta property="og:title" content="Инженерный код электромобиля Q05 Max по VIN — калькулятор">
+    <meta property="og:description" content="Калькулятор инженерного кода для электромобиля Q05 Max: введите VIN или его последние 6 символов и получите код вида *#04173098#*. На странице есть пошаговая формула расчёта.">
     <meta property="og:url" content="https://alxgk.site/vin-code/">
-    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+    <meta property="og:image" content="https://alxgk.site/assets/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/retro.css">
     <style>
         * {
             margin: 0;
@@ -22,62 +25,21 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-primary: #0a0e27;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --accent-orange: #ff8c00;
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --border-color: rgba(255, 140, 0, 0.2);
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-body);
             background: var(--bg-primary);
-            background-image:
-                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
             color: var(--text-primary);
             min-height: 100vh;
-        }
-
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(10, 14, 39, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 20px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .nav a:hover {
-            color: var(--accent-orange);
         }
 
         .container {
             max-width: 720px;
             margin: 0 auto;
-            padding: 88px 20px 48px;
+            padding: calc(var(--nav-height) + 32px) 20px 48px;
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 600;
             margin-bottom: 20px;
-            letter-spacing: -0.4px;
         }
 
         ol {
@@ -94,9 +56,8 @@
         code {
             font-family: 'JetBrains Mono', monospace;
             color: var(--accent-orange);
-            background: rgba(255, 140, 0, 0.08);
+            background: var(--field);
             padding: 2px 6px;
-            border-radius: 6px;
         }
 
         .example {
@@ -108,11 +69,10 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-top: 28px;
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            margin-top: 36px;
+            background-color: var(--window);
+            background-image: var(--window-bg);
+            box-shadow: var(--window-frame);
             padding: 24px;
         }
 
@@ -125,9 +85,8 @@
             font-size: 1.05rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            background: var(--field);
+            border: 2px solid var(--ink);
             color: var(--text-primary);
             padding: 14px 16px;
             outline: none;
@@ -164,31 +123,12 @@
             color: var(--text-muted);
         }
 
-        button {
-            font-family: 'Inter', sans-serif;
-            background: transparent;
-            color: var(--accent-orange);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px 14px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        button:hover {
-            border-color: var(--accent-orange);
-        }
-
         .lead {
             margin-bottom: 20px;
             color: var(--text-secondary);
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.55rem;
-            }
-
             form {
                 padding: 18px;
             }
@@ -197,12 +137,12 @@
 </head>
 <body>
     <nav class="nav">
-        <a href="../" class="nav-home">← alxgk.site</a>
+        <a href="../" class="nav-home">alxgk.site</a>
         <a href="../">Главная</a>
     </nav>
     <main class="container">
-        <h1>Как самому посчитать инженерный код по VIN</h1>
-        <p class="lead">Калькулятор для Q05 Max.</p>
+        <h1 class="page-title">Как самому посчитать инженерный код по VIN</h1>
+        <p class="lead">Калькулятор для электромобиля Q05 Max.</p>
         <ol>
             <li>Берём последние 6 символов VIN: a b c d e f</li>
             <li>Переставляем в порядке: a d c f b e</li>
@@ -216,7 +156,7 @@
             <input id="vin-input" name="vin" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="097483">
             <div class="output">
                 <p class="result" id="vin-result" aria-live="polite"></p>
-                <button id="vin-copy" type="button" hidden>Копировать</button>
+                <button id="vin-copy" class="btn" type="button" hidden>Копировать</button>
             </div>
             <p class="steps" id="vin-steps"></p>
         </form>

@@ -11,54 +11,31 @@
     <meta property="og:title" content="Загрузка картинок — прямая ссылка, превью и BB-код">
     <meta property="og:description" content="Загрузите изображение JPG, PNG или GIF до 5 МБ и получите прямую ссылку, превью нужного размера и BB-код для форума. Без регистрации.">
     <meta property="og:url" content="https://alxgk.site/uploader/">
-    <link rel="icon" type="image/png" href="../thumbnails/favicon.png">
+    <meta property="og:image" content="https://alxgk.site/assets/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/retro.css">
     <link href="index.css" rel="stylesheet">
-    <style>
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(10, 14, 39, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
-            padding: 12px 20px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav a:hover {
-            color: #ff8c00;
-        }
-
-        .nav-home {
-            font-size: 1.1rem;
-        }
-    </style>
 </head>
 <body>
 <nav class="nav">
-    <a href="../" class="nav-home">← alxgk.site</a>
+    <a href="../" class="nav-home">alxgk.site</a>
     <a href="../">Главная</a>
 </nav>
 <div class="uploader parent">
+    <h1 class="page-title">Загрузка картинок</h1>
+    <p class="lead">JPG, PNG или GIF до 5 МБ. После загрузки получите прямую ссылку, превью нужного размера и BB-код для форума.</p>
     <div class="uploader-container">
         <div class="form-wrapper">
             <form method="post" enctype="multipart/form-data">
                 <input type="file" name="files[]" class="file"/>
                 <input type="text" name="url" class="filename-url" readonly
-                       placeholder="Max: 5Mb; Formats: [jpg,jpeg,png,gif]"/>
-                <button class="file-btn" onclick="document.querySelector('input.file').click();" type="button">Выбрать файл</button>
-                <input type="submit" value="Загрузить" name="submit" class="submit"/>
+                       placeholder="Файл не выбран"/>
+                <button class="file-btn btn" onclick="document.querySelector('input.file').click();" type="button">Выбрать файл</button>
+                <input type="submit" value="Загрузить" name="submit" class="submit btn btn-primary"/>
             </form>
         </div>
         <div class="copy-wrapper">
@@ -69,7 +46,7 @@
         <div class="preview">
             <img id="preview-image" src="none.png">
             <div class="sizing-box-wrapper">
-                <button class="create-preview" title="Создать и скопировать ссылку на превью">Создать превью</button>
+                <button class="create-preview btn" title="Создать и скопировать ссылку на превью">Создать превью</button>
                 <input type="number" class="width" placeholder="Ширина [320]" min="0" max="1920"/>
                 <input type="number" class="height" placeholder="Высота [0]" min="0" max="1080"/>
             </div>

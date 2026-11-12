@@ -3,6 +3,8 @@ RewriteEngine on
 
 RewriteOptions inherit
 
+RedirectMatch 404 /\.git
+
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 

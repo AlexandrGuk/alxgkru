@@ -1,18 +1,11 @@
+<?php header('X-Robots-Tag: noindex, nofollow'); ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Загрузка картинок — прямая ссылка, превью и BB-код</title>
-    <meta name="description" content="Загрузите изображение JPG, PNG или GIF до 5 МБ и получите прямую ссылку, превью нужного размера и BB-код для форума. Без регистрации.">
-    <link rel="canonical" href="https://alxgk.site/uploader/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="alxgk.site">
-    <meta property="og:title" content="Загрузка картинок — прямая ссылка, превью и BB-код">
-    <meta property="og:description" content="Загрузите изображение JPG, PNG или GIF до 5 МБ и получите прямую ссылку, превью нужного размера и BB-код для форума. Без регистрации.">
-    <meta property="og:url" content="https://alxgk.site/uploader/">
-    <meta property="og:image" content="https://alxgk.site/assets/og.png">
-    <meta name="twitter:card" content="summary_large_image">
+    <title>Загрузка картинок — alxgk.site</title>
+    <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/png" href="../assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
